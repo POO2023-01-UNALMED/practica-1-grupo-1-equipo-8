@@ -6,7 +6,7 @@ Aplicación con la finalidad de implementarse en un restaurante, siendo posible 
 **Reserva**
 - Realizar una reserva de mesa en el restaurante.
 
-**clientes**
+**Clientes**
 - Visualizar los clientes con reservas asignadas.
 
 **Cancelacion/Reembolso**
