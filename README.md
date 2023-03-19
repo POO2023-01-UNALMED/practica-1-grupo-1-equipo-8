@@ -17,3 +17,11 @@ Aplicación con la finalidad de implementarse en un restaurante, siendo posible 
 
 **Factura**
 - Generar la factura de la reserva.
+
+## Autores
+
+- Pedro Junior Jiménez Ibáñez
+- Manuel Alejandro Sánchez Daza
+- Jonhatan Cuartas Londoño
+- Daniel Steven Caro Durango
+- Carlos Andrés Mora Franco
