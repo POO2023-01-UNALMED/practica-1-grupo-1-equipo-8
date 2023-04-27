@@ -5,7 +5,7 @@ public class Reserva {
     private static int id;
     private Cliente cliente;
     private Mesa mesa;
-	static ArrayList<Reserva> reservasHechas= new ArrayList<Reserva>();
+	static ArrayList<Reserva> reservasHechas = new ArrayList<Reserva>();
 
     public Reserva(int hora, Cliente cliente, Mesa mesa) {
 		this.hora = hora;

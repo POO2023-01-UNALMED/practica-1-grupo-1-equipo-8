@@ -29,6 +29,9 @@ public class Mesa {
     public boolean getDisponibilidad() {
         return disponible;
     }
+    public String getSede() {
+    	return sede;
+    }
     
     //set
     public void setDisponibilidad(boolean disponible){
@@ -36,7 +39,7 @@ public class Mesa {
     }
 
     public String toString(){
-        return "Mesa: " + idMesa + " Capacidad:" + capacidad;
+        return "Mesa: " + idMesa + ", Capacidad: " + capacidad;
     }
     
     public static ArrayList<Mesa> buscarMesas(String Isede, int capacidad){
