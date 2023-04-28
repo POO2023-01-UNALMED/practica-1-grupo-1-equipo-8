@@ -43,8 +43,6 @@ public class Reserva {
 		this.cliente = cliente;
 	}
 
-
-
 	public Mesa getMesa() {
 		return mesa;
 	}
@@ -62,7 +60,7 @@ public class Reserva {
         return true;
     }
     
-
-
-
+	public static ArrayList<Reserva> getReservasHechas() {
+		return reservasHechas;
+	}
 }

@@ -50,6 +50,9 @@ public class ui {
             case 2:
             	reprogramar();
             	break;
+            case 4:
+               	 procederPago();
+               	 break;
             case 6:
             	System.out.println("Muchas gracias por su visita vuelva pronto.");
             	break;
@@ -193,4 +196,128 @@ public class ui {
             	System.out.println("Sentimos que no desee finalizar su reprogamacion de reserva, lo esperamos en una nueva ocasión.");
             }
 	}
+	
+	//PAGO
+	public static void procederPago() {
+			
+		Scanner inp = new Scanner(System.in);
+		
+		System.out.println("¿Que deseas hacer?");
+		System.out.println("1. Pagar");
+    	System.out.println("2. Reembolsar");
+		
+		int sel = inp.nextInt();
+		
+		switch(sel) {
+		    case 1:
+				System.out.println("¿Ya tienes la factura de tu reserva?");
+				System.out.println("1. Sí");
+		    	System.out.println("2. No");
+		    	
+		    	
+		    	int select = inp.nextInt();
+		    	
+		    	System.out.println("Ingrese el id de su reserva");
+		    	int id = inp.nextInt();
+		    	
+		    	Factura facturaCliente = null;
+		    	
+		    	switch(select){
+		            case 1:
+		            	ArrayList<Factura> lista = Factura.getFacturasHechas();
+		            	boolean encontrado = false;
+		            	for (Factura buscarFactura : lista) {
+		            		
+		            		if(buscarFactura.getIDReserva() == id) {
+		            			facturaCliente = buscarFactura;
+		            			encontrado = true;
+		            		    System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaCliente.getFacturaHecha());
+		     			        break;        		
+		    	            }
+		    	        }
+		            	
+		    	        if(encontrado == false) {
+		    				System.out.println("No se ha generado ninguna factura con el id introducido");
+		    	    }
+		    	}
+		    	
+		    	switch(select){
+		            case 2:
+		    	        ArrayList<Reserva> lista = Reserva.getReservasHechas();
+		    	        boolean encontrado = false;
+		    	        for (Reserva buscarReserva : lista) {
+		    		
+		    		        if (buscarReserva.getIDReserva() == id) {
+		    			        encontrado = true;
+		    			        facturaCliente = new Factura(buscarReserva);
+		    			        facturaCliente.escribirFactura();
+		    			        Factura.addFactura(facturaCliente);
+		    			        Pago.addFacturasPendientes(facturaCliente);
+		    			        System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaCliente.getFacturaHecha());
+		    			        break;
+		    		        }
+		    	        }
+		    	        
+		    	        if(encontrado == false) {
+		    				System.out.println("El id introducido no concuerda con ninguno en nuestra lista");
+		            }
+		    	}
+		    	
+		    	if(facturaCliente != null) {
+		    		System.out.println("¿Desea cancelar el monto de la factura?"); 			
+			    	System.out.println("1. Sí");
+			    	System.out.println("2. No");
+			    	
+			    	int opc = inp.nextInt();
+			    	
+			    	    switch(opc){
+			            case 1:
+			        	    System.out.println("Cuál será su método de pago:");
+			        	    System.out.println("1. En línea");
+		    	    	    System.out.println("2. Efectivo");
+		    	    	    
+		           	        int opc1 = inp.nextInt();
+		            	    
+		        	        switch(opc1){
+		    	            case 1:
+		    	        	    System.out.println("Ingrese el saldo de su tarjeta:");
+		    	        	    int saldo = inp.nextInt();
+		    	        	    
+		    	        	    if(saldo >= facturaCliente.getPrecio()) {
+		    	        		    System.out.println("Su pago ha sido registrado");
+		    	        		    facturaCliente.setPagado(true);
+		    	        		    Pago.addFacturasPagas(facturaCliente);
+		    	        	    }
+		    	        	    
+		    	        	    else {
+		    	        		    System.out.println("Su saldo no es suficiente, aún no podremos confirmar su reserva");
+		    	        	    }
+		    	            }
+		        	        
+		        	        switch(opc1) {
+		        	        case 2:
+		        	    	    System.out.println("Haga su pago en caja al llegar a la sede " + facturaCliente.getSede());
+		        	    	    Pago.addFacturasPagas(facturaCliente);
+		        	        }  
+			    	    }
+			    	    
+			    	    switch(opc){
+			            case 2:
+			                System.out.println("Ya que no fue posible realizar el pago de la reserva #" + facturaCliente.getIDReserva()
+			                + " aún no podremos confirmar su reserva");
+			    	    }
+				}
+		    	
+		}
+		
+		switch(sel) {
+		case 2:
+			System.out.println("Ingrese el motivo de su intención de reembolso");
+			 System.out.println("1. Problemas con el horario");
+	    	 System.out.println("2. Problemas con nuestro servicio");
+	    	 System.out.println("3. Dificultades con el precio y/o medio de pago");
+	    	 System.out.println("4. Otro");
+	    	 
+		}
+	}   
 }
