@@ -199,6 +199,13 @@ public class ui {
 	
 	//PAGO
 	public static void procederPago() {
+		
+		//Prueba
+		Cliente Daniel = new Cliente(12 , "Daniel");
+		Mesa SM = new Mesa("Aranjuez" , 12 , 3);
+		Reserva prueba = new Reserva(2, Daniel , SM);
+		System.out.println("---ID solo para la prueba--- " + prueba.getIDReserva());
+		//-----------------
 			
 		Scanner inp = new Scanner(System.in);
 		
