@@ -1,5 +1,6 @@
 package gestorAplicación.clasesPrincipales;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Membresia {
     private Cliente cliente;
@@ -15,33 +16,36 @@ public class Membresia {
         return cliente;
     }
 
-    public static boolean verificarMiembro(String nombreClienteVerificar){
-        for (Cliente cliente : miembrosActuales){
-            if (cliente.getNombre().equals(nombreClienteVerificar)){
-                cliente.setMembresia(true);
-                System.out.println("Usted hace parte de la membresía del Restaurante");
-                return true;
-            }
-            else {
-                System.out.println("Usted no hace parte de la membresía del restaurante");
+
+    public static void verificarMiembro(String nombre, Cliente Verificar){
+        Iterator<Cliente> iterator = Cliente.miembrosActuales.iterator();
+        while (iterator.hasNext()) {
+            Cliente cliente = iterator.next();
+            if (cliente.getNombre().equals(nombre)) {
+                System.out.println("El cliente " + nombre + " hace parte de la lista de miembros.");
+                return;
             }
         }
-        return false;
+        System.out.println("No se encontró el cliente " + nombre + " en la lista de miembros.");
     }
 
-    public static void agregarMiembro(Cliente clienteNuevoMiembro) {
-        miembrosActuales.add(clienteNuevoMiembro);
+    public static void agregarMiembro(Cliente nuevoMiembro) {
+        miembrosActuales.add(nuevoMiembro);
+        nuevoMiembro.setMembresia(true);
     }
 
-    public static boolean cancelarMiembro(String nombreCliente, Cliente clienteEliminar){
-        for (Cliente cliente: miembrosActuales){
-            if (cliente.getNombre().equals(nombreCliente)){
+    public static void cancelarMiembro(String nombre, Cliente Eliminar){
+        Iterator<Cliente> iterator = Cliente.miembrosActuales.iterator();
+        while (iterator.hasNext()) {
+            Cliente cliente = iterator.next();
+            if (cliente.getNombre().equals(nombre)) {
                 cliente.setMembresia(false);
-                miembrosActuales.remove(clienteEliminar);
-                return false;
+                iterator.remove();
+                System.out.println("El cliente " + nombre + " ha sido eliminado.");
+                return;
             }
         }
-        return false;
+        System.out.println("No se encontró el cliente " + nombre + " en la lista de miembros.");
     }
 
     public void setCliente(Cliente cliente){

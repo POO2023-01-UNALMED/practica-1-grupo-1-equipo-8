@@ -71,14 +71,6 @@ public class ui {
         Cliente clienteNow = new Cliente(a1, a2);
         //Toca revisar como hacer lo de los constructores sobrecargados
 
-
-        boolean resultado = Membresia.verificarMiembro(clienteNow.getNombre(), Cliente.getMiembrosActuales());
-        	clienteNow.setMembresia(resultado);
-  
-            if (clienteNow.getMiembro()){
-                System.out.println("Bienvenido/a de nuevo " + clienteNow.getNombre() + ".");
-            }
-
         System.out.println("Escoja la sede en la que quiera reservar:");
         System.out.println("1. Bello");
         System.out.println("2. Envigado");
@@ -334,7 +326,7 @@ public class ui {
 	
 	public static void membresias() {
         Scanner in = new Scanner(System.in);
-        System.out.println("Bienvenido al sitema de membresía ¿Qué desea hacer?");
+        System.out.println("Bienvenido al sistema de membresía ¿Qué desea hacer?");
         System.out.println("1. Ingresar membresía");
         System.out.println("2. Cancelar membresía");
         System.out.println("3. Verificar membresía");
@@ -358,7 +350,6 @@ public class ui {
                 Cliente clienteEliminar = new Cliente(elim1, elim2);
                 String nombreCliente = clienteEliminar.getNombre();
                 Membresia.cancelarMiembro(nombreCliente, clienteEliminar);
-                System.out.println("Usted ya no hace parte de la membresía");
                 break;
             case 3:
                 Scanner a = new Scanner(System.in);
@@ -366,8 +357,8 @@ public class ui {
                 String verif1 = a.nextLine();
                 int verif2 = a.nextInt();
                 Cliente clienteVerificar = new Cliente(verif1, verif2);
-                String nombreClienteVerificar = clienteVerificar.getNombre();
-                Membresia.verificarMiembro(nombreClienteVerificar);
+                String nombreVerificar = clienteVerificar.getNombre();
+                Membresia.verificarMiembro(nombreVerificar, clienteVerificar);
                 break;
           }
     }
