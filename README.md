@@ -24,4 +24,3 @@ Aplicación con la finalidad de implementarse en un restaurante, siendo posible 
 - Manuel Alejandro Sánchez Daza
 - Jonhatan Cuartas Londoño
 - Daniel Steven Caro Durango
-- Carlos Andrés Mora Franco
