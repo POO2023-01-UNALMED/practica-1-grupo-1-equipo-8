@@ -53,6 +53,9 @@ public class ui {
             case 4:
                	 procederPago();
                	 break;
+			case 5:
+				membresias();
+				break;
             case 6:
             	System.out.println("Muchas gracias por su visita vuelva pronto.");
             	break;
@@ -326,5 +329,46 @@ public class ui {
 	    	 System.out.println("4. Otro");
 	    	 
 		}
-	}   
+	}
+
+	
+	public static void membresias() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Bienvenido al sitema de membresía ¿Qué desea hacer?");
+        System.out.println("1. Ingresar membresía");
+        System.out.println("2. Cancelar membresía");
+        System.out.println("3. Verificar membresía");
+        int acc = in.nextInt();
+
+        switch(acc){
+            case 1:
+                Scanner input = new Scanner(System.in);
+                System.out.println("Ingrese su nombre y su numero de identificacion");
+                String nvom1 = input.nextLine();
+                int nvom2 = input.nextInt();
+                Cliente clienteNuevoMiembro = new Cliente(nvom1, nvom2);
+                Membresia.agregarMiembro(clienteNuevoMiembro);
+                System.out.println("Ahora hace parte de la membresía");
+                break;
+            case 2:
+                Scanner i = new Scanner(System.in);
+                System.out.println("Ingrese su nombre y su numero de identificacion");
+                String elim1 = i.nextLine();
+                int elim2 = i.nextInt();
+                Cliente clienteEliminar = new Cliente(elim1, elim2);
+                String nombreCliente = clienteEliminar.getNombre();
+                Membresia.cancelarMiembro(nombreCliente, clienteEliminar);
+                System.out.println("Usted ya no hace parte de la membresía");
+                break;
+            case 3:
+                Scanner a = new Scanner(System.in);
+                System.out.println("Ingrese su nombre y su numero de identificacion");
+                String verif1 = a.nextLine();
+                int verif2 = a.nextInt();
+                Cliente clienteVerificar = new Cliente(verif1, verif2);
+                String nombreClienteVerificar = clienteVerificar.getNombre();
+                Membresia.verificarMiembro(nombreClienteVerificar);
+                break;
+          }
+    }
 }
