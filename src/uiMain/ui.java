@@ -309,7 +309,7 @@ public class ui {
 			    	    }    
 				}
 		    	break;	    	
-		    	case 2: //REEMBOLSO
+		    	case 2:  //REEMBOLSO
 		    		
 		    		System.out.println("Ingrese el id de su reserva");
 			    	int idr = inp.nextInt();
