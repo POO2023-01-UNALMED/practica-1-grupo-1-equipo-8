@@ -9,8 +9,22 @@ public class Pago {
     public static void addFacturasPagas(Factura factura) {
     	facturasPagas.add(factura);
     }
+    public static ArrayList<Factura> getFacturasPagas() {
+    	return facturasPagas;
+    }
+    public static void removePaga(Factura factura) {
+    	facturasPagas.remove(factura);
+    }
    
     public static void addFacturasPendientes(Factura factura) {
-    	facturasPagas.add(factura);
+    	facturasPendientes.add(factura);
     }
+    public static ArrayList<Factura> getFacturasPendientes() {
+    	return facturasPendientes;
+    }
+    public static void removePendiente(Factura factura) {
+    	facturasPendientes.remove(factura);
+    }
+    
+    
 }

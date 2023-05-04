@@ -53,6 +53,9 @@ public class ui {
             case 4:
                	 procederPago();
                	 break;
+			case 5:
+				membresias();
+				break;
             case 6:
             	System.out.println("Muchas gracias por su visita vuelva pronto.");
             	break;
@@ -67,14 +70,6 @@ public class ui {
         int a2 = inp.nextInt();
         Cliente clienteNow = new Cliente(a1, a2);
         //Toca revisar como hacer lo de los constructores sobrecargados
-
-
-        boolean resultado = Membresia.verificarMiembro(clienteNow.getNombre(), Cliente.getMiembrosActuales());
-        	clienteNow.setMembresia(resultado);
-  
-            if (clienteNow.getMiembro()){
-                System.out.println("Bienvenido/a de nuevo " + clienteNow.getNombre() + ".");
-            }
 
         System.out.println("Escoja la sede en la que quiera reservar:");
         System.out.println("1. Bello");
@@ -200,13 +195,6 @@ public class ui {
 	//PAGO
 	public static void procederPago() {
 		
-		//Prueba
-		Cliente Daniel = new Cliente(12 , "Daniel");
-		Mesa SM = new Mesa("Aranjuez" , 12 , 3);
-		Reserva prueba = new Reserva(2, Daniel , SM);
-		System.out.println("---ID solo para la prueba--- " + prueba.getIDReserva());
-		//-----------------
-			
 		Scanner inp = new Scanner(System.in);
 		
 		System.out.println("¿Que deseas hacer?");
@@ -216,7 +204,7 @@ public class ui {
 		int sel = inp.nextInt();
 		
 		switch(sel) {
-		    case 1:
+		    case 1: //PAGAR
 				System.out.println("¿Ya tienes la factura de tu reserva?");
 				System.out.println("1. Sí");
 		    	System.out.println("2. No");
@@ -229,9 +217,10 @@ public class ui {
 		    	
 		    	Factura facturaCliente = null;
 		    	
+		    	
 		    	switch(select){
 		            case 1:
-		            	ArrayList<Factura> lista = Factura.getFacturasHechas();
+		            	ArrayList<Factura> lista = Pago.getFacturasPendientes();
 		            	boolean encontrado = false;
 		            	for (Factura buscarFactura : lista) {
 		            		
@@ -243,22 +232,30 @@ public class ui {
 		    	            }
 		    	        }
 		            	
-		    	        if(encontrado == false) {
-		    				System.out.println("No se ha generado ninguna factura con el id introducido");
-		    	    }
-		    	}
-		    	
-		    	switch(select){
+		    	        if(encontrado == false) {		    	
+		    	        	ArrayList<Factura> lista1 = Pago.getFacturasPagas();
+		    	        	for (Factura buscarFactura : lista1) {
+		    	        		
+		    	        		if(buscarFactura.getIDReserva() == id) {
+		    	        			encontrado = true;
+			            		    System.out.println("La reserva ya fue pagada");
+			     			        break;  
+			     			        }
+		    	        		}
+		    	        	if(encontrado == false) {
+		    	        		System.out.println("No se ha generado ninguna factura con el id introducido");
+		    	        	}
+		    	        }
+		    	        break;
+		    	        
 		            case 2:
-		    	        ArrayList<Reserva> lista = Reserva.getReservasHechas();
-		    	        boolean encontrado = false;
-		    	        for (Reserva buscarReserva : lista) {
-		    		
+		            	ArrayList<Reserva> lista2 = Reserva.getReservasHechas();
+		            	encontrado = false;
+		    	        for (Reserva buscarReserva : lista2) {  	    
 		    		        if (buscarReserva.getIDReserva() == id) {
 		    			        encontrado = true;
 		    			        facturaCliente = new Factura(buscarReserva);
 		    			        facturaCliente.escribirFactura();
-		    			        Factura.addFactura(facturaCliente);
 		    			        Pago.addFacturasPendientes(facturaCliente);
 		    			        System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaCliente.getFacturaHecha());
 		    			        break;
@@ -269,7 +266,7 @@ public class ui {
 		    				System.out.println("El id introducido no concuerda con ninguno en nuestra lista");
 		            }
 		    	}
-		    	
+
 		    	if(facturaCliente != null) {
 		    		System.out.println("¿Desea cancelar el monto de la factura?"); 			
 			    	System.out.println("1. Sí");
@@ -292,39 +289,104 @@ public class ui {
 		    	        	    
 		    	        	    if(saldo >= facturaCliente.getPrecio()) {
 		    	        		    System.out.println("Su pago ha sido registrado");
-		    	        		    facturaCliente.setPagado(true);
+		    	        		    Pago.removePendiente(facturaCliente);
 		    	        		    Pago.addFacturasPagas(facturaCliente);
 		    	        	    }
 		    	        	    
 		    	        	    else {
 		    	        		    System.out.println("Su saldo no es suficiente, aún no podremos confirmar su reserva");
 		    	        	    }
-		    	            }
-		        	        
-		        	        switch(opc1) {
-		        	        case 2:
+		    	        	    break;
+		    	            case 2:
 		        	    	    System.out.println("Haga su pago en caja al llegar a la sede " + facturaCliente.getSede());
-		        	    	    Pago.addFacturasPagas(facturaCliente);
-		        	        }  
-			    	    }
-			    	    
-			    	    switch(opc){
+		        	    	    Pago.removePendiente(facturaCliente);
+		        	    	    Pago.addFacturasPagas(facturaCliente);	    
+		    	            }		   
+		        	        break;
 			            case 2:
 			                System.out.println("Ya que no fue posible realizar el pago de la reserva #" + facturaCliente.getIDReserva()
 			                + " aún no podremos confirmar su reserva");
-			    	    }
+			    	    }    
 				}
-		    	
+		    	break;	    	
+		    	case 2: //REEMBOLSO
+		    		
+		    		System.out.println("Ingrese el id de su reserva");
+			    	int idr = inp.nextInt();
+			    	
+			    	boolean encontrado = false;
+	            	for (Factura buscarFactura : Pago.getFacturasPagas()) {
+	            		
+	            		if(buscarFactura.getIDReserva() == idr) {
+	            			encontrado = true;
+	            			Pago.removePaga(buscarFactura);
+	            		    System.out.println("La factura " + idr + " ha sido reembolsada a su tarjeta usada para el pago");
+	            		    
+	            		    System.out.println("Para finalizar cuentanos cuál fue el motivo de su reembolso");
+	    		    		System.out.println("1. Problemas con el horario");
+	    		    		System.out.println("2. Problemas con nuestro servicio");
+	    		    		System.out.println("3. Dificultades con el precio y/o medio de pago");
+	    		    		System.out.println("4. Otro (especificar)");
+	    		    		int opc2 = inp.nextInt();
+	    		    		
+	    		    		switch(opc2) {
+	    		    		case 1, 2, 3:
+	    		    			System.out.println("Lamentamos las molestias causadas, intentaremos solucionar su problema lo más rápido posible");
+	    		    		break;
+	    		    		
+	    		    		case 4:
+	    		    			System.out.println("Dinos cual fue su problema");
+	    		    			String problema = inp.next();
+	    		    			System.out.println("Gracias por notificarnos, haremos lo posible para solucionar su problema lo más rápido posible");
+	    		    		}
+	    		    		
+	     			        break;        		
+	    	            }
+	    	        }
+	            	
+	    	        if(encontrado == false) {
+	    				System.out.println("El reembolso de su reserva no fue posible ya que no se ha efectuado ningún pago");
+	    	    }
+		    }
 		}
-		
-		switch(sel) {
-		case 2:
-			System.out.println("Ingrese el motivo de su intención de reembolso");
-			 System.out.println("1. Problemas con el horario");
-	    	 System.out.println("2. Problemas con nuestro servicio");
-	    	 System.out.println("3. Dificultades con el precio y/o medio de pago");
-	    	 System.out.println("4. Otro");
-	    	 
-		}
-	}   
+
+	
+	public static void membresias() {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Bienvenido al sistema de membresía ¿Qué desea hacer?");
+        System.out.println("1. Ingresar membresía");
+        System.out.println("2. Cancelar membresía");
+        System.out.println("3. Verificar membresía");
+        int acc = in.nextInt();
+
+        switch(acc){
+            case 1:
+                Scanner input = new Scanner(System.in);
+                System.out.println("Ingrese su nombre y su numero de identificacion");
+                String nvom1 = input.nextLine();
+                int nvom2 = input.nextInt();
+                Cliente clienteNuevoMiembro = new Cliente(nvom1, nvom2);
+                Membresia.agregarMiembro(clienteNuevoMiembro);
+                System.out.println("Ahora hace parte de la membresía");
+                break;
+            case 2:
+                Scanner i = new Scanner(System.in);
+                System.out.println("Ingrese su nombre y su numero de identificacion");
+                String elim1 = i.nextLine();
+                int elim2 = i.nextInt();
+                Cliente clienteEliminar = new Cliente(elim1, elim2);
+                String nombreCliente = clienteEliminar.getNombre();
+                Membresia.cancelarMiembro(nombreCliente, clienteEliminar);
+                break;
+            case 3:
+                Scanner a = new Scanner(System.in);
+                System.out.println("Ingrese su nombre y su numero de identificacion");
+                String verif1 = a.nextLine();
+                int verif2 = a.nextInt();
+                Cliente clienteVerificar = new Cliente(verif1, verif2);
+                String nombreVerificar = clienteVerificar.getNombre();
+                Membresia.verificarMiembro(nombreVerificar, clienteVerificar);
+                break;
+          }
+    }
 }

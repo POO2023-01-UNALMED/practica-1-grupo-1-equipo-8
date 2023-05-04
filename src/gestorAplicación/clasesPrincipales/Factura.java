@@ -1,7 +1,5 @@
 package gestorAplicación.clasesPrincipales;
 
-import java.util.ArrayList;
-
 public class Factura {
     private Reserva reserva;
     private String facturaHecha;
@@ -9,9 +7,7 @@ public class Factura {
 	private Mesa mesa;
 	private int precio;
 	private String sede;
-	private boolean pagado = false;
 	private int id;
-	static ArrayList<Factura> facturasHechas = new ArrayList<Factura>();
 	
     public Factura(Reserva reserva) {
     	this.reserva = reserva;
@@ -45,19 +41,8 @@ public class Factura {
 	
 	public String getSede() {
 		return sede;
-	}
+	}    
 	
-	public boolean isPagado() {
-	    return pagado;
-	}
-	public void setPagado(boolean pagado) {
-		this.pagado = pagado;
-	}
-	
-	public static ArrayList<Factura> getFacturasHechas() {
-	   return facturasHechas;
-	}
-	    
 	public int getIDReserva() {
 	    return id;
 	}
@@ -77,9 +62,5 @@ public class Factura {
     	}
 
 		facturaHecha = facturaHecha + "\n-------------";
-    }
-    
-    public static void addFactura(Factura factura) {
-    	facturasHechas.add(factura);
     }
 }
