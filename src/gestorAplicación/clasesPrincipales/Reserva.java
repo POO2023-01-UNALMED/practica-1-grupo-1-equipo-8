@@ -1,55 +1,53 @@
 package gestorAplicación.clasesPrincipales;
 import java.util.ArrayList;
+
 public class Reserva {
     private int hora;
-    private static int id;
+    private static int numeroDeReservas;
+	private int IdR;
     private Cliente cliente;
     private Mesa mesa;
-	static ArrayList<Reserva> reservasHechas = new ArrayList<Reserva>();
+	private static ArrayList<Reserva> reservasHechas= new ArrayList<Reserva>();
 
-    public Reserva(int hora, Cliente cliente, Mesa mesa) {
+
+	public Reserva(int hora, Cliente cliente, Mesa mesa) {
 		this.hora = hora;
 		this.cliente = cliente;
 		this.mesa = mesa;
-		Reserva.id++;
+		Reserva.numeroDeReservas++;
+		this.IdR = Reserva.numeroDeReservas;
 		reservasHechas.add(this);
+		
 	}
 	
 
 	public String toString(){
-		return "Cliente: " + this.cliente + ",mesa: " + this.mesa + ",hora: " + this.hora;
+		return "Cliente: " + this.cliente + ", mesa: " + this.mesa + ", hora: " + this.hora + ", reservaID: " + this.IdR;
 	}
 	public int getHora() {
 		return hora;
 	}
-
 	public void setHora(int hora) {
 		this.hora = hora;
 	}
-
-	public int getIDReserva() {
-		return id;
-	}
-
-	public void setIDReserva(int iDReserva) {
-		id = iDReserva;
-	}
-
 	public Cliente getCliente() {
 		return cliente;
 	}
-
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-
 	public Mesa getMesa() {
 		return mesa;
 	}
-
 	public void setMesa(Mesa mesa) {
 		this.mesa = mesa;
 	}
+	public int getIdR(){
+		return IdR;
+	}
+	public static int getNumeroDeReservas(){
+		return Reserva.numeroDeReservas;
+	} 
 
 	public static boolean validarHorarioDisponible(int hora, Mesa m){
             for (Reserva reserva : reservasHechas){
@@ -59,8 +57,22 @@ public class Reserva {
         }
         return true;
     }
-    
-	public static ArrayList<Reserva> getReservasHechas() {
+
+		
+	public static ArrayList<Reserva> getReservasHechas(){
 		return reservasHechas;
 	}
+	public static String devolverSede(int sede){
+		String Isede = "";
+		if (Sedes.B.ordinal() == sede) {
+        	Isede = "B";
+        } else if (Sedes.E.ordinal() == sede) {
+        	Isede = "E";
+        } else if (Sedes.SJ.ordinal() == sede) {
+        	Isede = "SJ";
+        }
+		return Isede;
+	}
+	
+
 }

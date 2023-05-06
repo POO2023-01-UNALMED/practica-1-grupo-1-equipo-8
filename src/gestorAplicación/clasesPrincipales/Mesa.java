@@ -29,8 +29,9 @@ public class Mesa {
     public boolean getDisponibilidad() {
         return disponible;
     }
+
     public String getSede() {
-    	return sede;
+        return sede;
     }
     
     //set

@@ -9,10 +9,10 @@ public class ui {
         Scanner inp = new Scanner(System.in);
         ArrayList<Reserva> historial = new ArrayList<Reserva>();
 
-        Cliente.miembrosActuales.add(new Cliente(987, "Juan"));
-        Cliente.miembrosActuales.add(new Cliente(957, "Jose"));
-        Cliente.miembrosActuales.add(new Cliente(917, "Alex"));
-        Cliente.miembrosActuales.add(new Cliente(986, "Luis"));
+        Cliente.miembrosActuales.add(new Cliente("Juan",987));
+        Cliente.miembrosActuales.add(new Cliente("Jose",965));
+        Cliente.miembrosActuales.add(new Cliente("Alex",324));
+        Cliente.miembrosActuales.add(new Cliente("Luis",245));
         Mesa me1 = new Mesa("E", 1, 2);
         Mesa me2 = new Mesa("SJ", 2, 2);
         Mesa me3 = new Mesa("B", 3, 2);
@@ -48,7 +48,7 @@ public class ui {
                 hacerReserva();
                 break;
             case 2:
-            	reprogramar();
+            	hacerReprogramacion();
             	break;
             case 4:
                	 procederPago();
@@ -61,76 +61,83 @@ public class ui {
             	break;
     }
 }
-//Realizar reservas (MEMBRESIA, MESA, CLIENTE, FACTURA)
-	public static void hacerReserva() {
-		Scanner inp = new Scanner(System.in);
-		System.out.println("Ingrese su nombre:");
-		String a1 = inp.nextLine();
-		System.out.println("Ingrese su numero de identificacion:");
-        int a2 = inp.nextInt();
-        Cliente clienteNow = new Cliente(a1, a2);
-        //Toca revisar como hacer lo de los constructores sobrecargados
 
-        System.out.println("Escoja la sede en la que quiera reservar:");
-        System.out.println("1. Bello");
-        System.out.println("2. Envigado");
-        System.out.println("3. San Javier");
-        int sede = inp.nextInt();
-        String Isede = "";
-        
-        if (sede == 1) {
-        	Isede = "B";
-        } else if (sede == 2) {
-        	Isede = "E";
-        } else if (sede == 3) {
-        	Isede = "SJ";
-        }
+//RESERVA
+public static void hacerReserva() {
+	Scanner inp = new Scanner(System.in);
+	System.out.println("Para comenzar, ingrese su nombre");
+	String a1 = inp.nextLine();
+	System.out.println("ingrese su numero de identificación");
+	int a2 = inp.nextInt();
 
-        System.out.println("Ingrese la cantidad de personas[2-4]:");
-        int cantidad = inp.nextInt();
-        ArrayList<Mesa> mesasRequeridas = Mesa.buscarMesas(Isede, cantidad);
+	Cliente clienteNow = new Cliente (a1,a2);
 
-        System.out.println("Ingrese la hora en la que quiere reservar [6pm-12pm].(escriba solo el numero): ");
-        int hora = inp.nextInt();
-        
-        for (Mesa m : mesasRequeridas) {
-        	m.setDisponibilidad(Reserva.validarHorarioDisponible(hora, m));
-        	}
-        ArrayList<Mesa> mesasF = new ArrayList<Mesa>();
-        for (Mesa m : mesasRequeridas) {
-        	if (m.getDisponibilidad()) {
-        		mesasF.add(m);
-        	}
-        }
+	//IMPLEMENTAR LA BIENVENIDA A MIEMBROS
+	System.out.println("Escoja la sede en la que quiera reservar");
+
+	System.out.println("1. Bello");
+	System.out.println("2. Envigado");
+	System.out.println("3. San Javier");
 	
-        if (mesasF.size() == 0 ){
-            System.out.println("Lo sentimos, pero no hay disponibilidad de mesas con estas caracteristicas");
-        } else {
-            System.out.println("Escoja una de las mesas que se mostrarán a continuación:");
-            int c = 1;
-            for (Mesa mesa : mesasF){
-            	if (mesa.getDisponibilidad()) {
-                System.out.println(c + ". "+ mesa.toString());
-                c++;
-            	}
-            }
-        }
-        
-        int mesaElegida = inp.nextInt();
-        Mesa mesaEl = mesasF.get(mesaElegida-1);
-        System.out.println("La mesa " + mesaEl.getId() + " será reservada a nombre de " + clienteNow.getNombre() + " ¿Desea continuar y generar su factura?");
-        System.out.println("1. Si");
-        System.out.println("2. No");
-        int conf = inp.nextInt();
-        if (conf == 1){
-            Reserva reservaDone = new Reserva(hora, clienteNow, mesaEl);
-            //System.out.println("Su id de reserva es: ");
-            //System.out.println(reservaDone.getIDReserva());
-        } else {
-            System.out.println("Sentimos que no desee finalizar su reserva "  + clienteNow.getNombre() + ", lo esperamos en una nueva ocasion. ");
-        }
+	int sede = inp.nextInt()-1;
+	String Isede = Reserva.devolverSede(sede);
+
+	System.out.println("Ingrese la cantidad de personas[2-4]");
+	int cantidad = inp.nextInt();
+	ArrayList<Mesa> mesasRequeridas = Mesa.buscarMesas(Isede, cantidad);
+
+	System.out.println("Ingrese la hora en la que quiere reservar [6pm-12pm]");
+	int hora = inp.nextInt();
+	
+	for (Mesa m : mesasRequeridas) {
+		m.setDisponibilidad(Reserva.validarHorarioDisponible(hora, m));
+		}
+	ArrayList<Mesa> mesasF = new ArrayList<Mesa>();
+	for (Mesa m : mesasRequeridas) {
+		if (m.getDisponibilidad()) {
+			mesasF.add(m);
+		}
 	}
-	public static void reprogramar() {
+	
+
+	if (mesasF.size() == 0 ){
+		System.out.println("Lo sentimos, pero no hay disponibilidad de mesas con estas caracteristicas");
+	} else {
+		System.out.println("Escoja una de las mesas que se mostrarán a continuación");
+		int c = 1;
+		for (Mesa mesa : mesasF){
+			if (mesa.getDisponibilidad()) {
+			System.out.println(c + ". "+ mesa.toString());
+			c++;
+			}
+		}
+	}
+	
+	int mesaElegida = inp.nextInt();
+	Mesa mesaEl = mesasF.get(mesaElegida-1);
+	System.out.println("La " + mesaEl.getId() + " será reservada a nombre de " + clienteNow.getNombre() + " ¿Desea continuar y generar su factura?");
+	System.out.println("1. Si");
+	System.out.println("2. No");
+	int conf = inp.nextInt();
+	if (conf == 1){
+		Reserva reservaDone = new Reserva(hora, clienteNow, mesaEl);
+		Factura facturaNow = new Factura(reservaDone);
+		facturaNow.escribirFactura();
+		System.out.println("Desea visualizar su factura");
+		System.out.println("1. Si");
+		System.out.println("2. No");
+		int decs = inp.nextInt();
+		if (decs == 1){
+			System.out.println(facturaNow.mostrarFactura());
+		}
+		
+	} else {
+		System.out.println("Sentimos que no desee finalizar su reserva "  + clienteNow.getNombre() +", lo esperamos en una nueva ocasion. ");
+	}
+}
+
+//REPROGRAMAR
+	public static void hacerReprogramacion() {
 		Scanner inp = new Scanner(System.in);
 		System.out.println("Ingrese la ID de su reserva:");
         int b2 = inp.nextInt();
@@ -252,7 +259,7 @@ public class ui {
 		            	ArrayList<Reserva> lista2 = Reserva.getReservasHechas();
 		            	encontrado = false;
 		    	        for (Reserva buscarReserva : lista2) {  	    
-		    		        if (buscarReserva.getIDReserva() == id) {
+		    		        if (buscarReserva.getIdR() == id) {
 		    			        encontrado = true;
 		    			        facturaCliente = new Factura(buscarReserva);
 		    			        facturaCliente.escribirFactura();

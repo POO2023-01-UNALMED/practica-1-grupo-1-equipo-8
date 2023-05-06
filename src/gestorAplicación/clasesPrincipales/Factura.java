@@ -1,5 +1,4 @@
 package gestorAplicación.clasesPrincipales;
-
 public class Factura {
     private Reserva reserva;
     private String facturaHecha;
@@ -14,7 +13,7 @@ public class Factura {
     	this.cliente = reserva.getCliente();
 		this.mesa = reserva.getMesa();
 		this.sede = mesa.getSede();
-		this.id = reserva.getIDReserva();
+		this.id = reserva.getIdR();
     }
     
     public Reserva getReserva() {
@@ -63,4 +62,7 @@ public class Factura {
 
 		facturaHecha = facturaHecha + "\n-------------";
     }
+	public String mostrarFactura(){
+		return this.facturaHecha;
+	}
 }

@@ -1,4 +1,5 @@
 package gestorAplicación.clasesPrincipales;
+
 import java.util.ArrayList;
 
 public class Cliente{
@@ -7,22 +8,18 @@ public class Cliente{
     private String nombre;
     private boolean membresia;
 
-    public Cliente(int id, String nombre){
+    public Cliente(String nombre, int id){
         this.id = id;
         this.nombre = nombre;
         this.membresia = false;
     }
-    public Cliente(String nombre, int id) {
-        this.nombre = nombre;
-        this.id = id;
-    	this.membresia = false;
-    }
+    
     public Cliente(int id) {
     	this.id = id;
         this.nombre = "N/N";
         this.membresia = false;
     }
-    
+
 
     public int getId(){
         return id;
