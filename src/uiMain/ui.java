@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import gestorAplicación.clasesPrincipales.*;
 
 public class ui {
-    private static Membresia membresia1 = new Membresia(new Cliente("Juan", 987));
+    private static Membresia membresia1 = new Membresia(new Cliente("Juan", 111));
     public static void main(String[] args) {
         Scanner inp = new Scanner(System.in);
         ArrayList<Reserva> historial = new ArrayList<Reserva>();
@@ -373,8 +373,9 @@ public static void hacerReserva() {
                 String nvom1 = input.nextLine();
                 int nvom2 = input.nextInt();
                 Cliente clienteNuevoMiembro = new Cliente(nvom1, nvom2);
-                Membresia.agregarMiembro(clienteNuevoMiembro);
-                System.out.println("Ahora hace parte de la membresía");
+				String nombreClienteN = clienteNuevoMiembro.getNombre();
+				int idAgregar = clienteNuevoMiembro.getId();
+                Membresia.agregarMiembro(nombreClienteN, idAgregar, clienteNuevoMiembro);
                 break;
             case 2:
                 Scanner i = new Scanner(System.in);
@@ -383,7 +384,8 @@ public static void hacerReserva() {
                 int elim2 = i.nextInt();
                 Cliente clienteEliminar = new Cliente(elim1, elim2);
                 String nombreCliente = clienteEliminar.getNombre();
-                Membresia.cancelarMiembro(nombreCliente, clienteEliminar);
+				int ideliminar = clienteEliminar.getId();
+                Membresia.cancelarMiembro(nombreCliente, ideliminar ,clienteEliminar);
                 break;
             case 3:
                 Scanner a = new Scanner(System.in);
@@ -392,7 +394,8 @@ public static void hacerReserva() {
                 int verif2 = a.nextInt();
                 Cliente clienteVerificar = new Cliente(verif1, verif2);
                 String nombreVerificar = clienteVerificar.getNombre();
-                Membresia.verificarMiembro(nombreVerificar, clienteVerificar);
+				int idverificar = clienteVerificar.getId();
+                Membresia.verificarMiembro(nombreVerificar, idverificar, clienteVerificar);
                 break;
           }
     }
