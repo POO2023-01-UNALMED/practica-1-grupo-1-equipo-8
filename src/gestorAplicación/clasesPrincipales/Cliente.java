@@ -1,8 +1,9 @@
 package gestorAplicación.clasesPrincipales;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cliente{
+public class Cliente implements Serializable{
     public static ArrayList<Cliente> miembrosActuales = new ArrayList<Cliente>();
     private int id;
     private String nombre;

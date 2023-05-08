@@ -1,9 +1,10 @@
 package gestorAplicación.clasesPrincipales;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Membresia {
+public class Membresia implements Serializable{
     private Cliente cliente;
     public static ArrayList<Cliente> miembrosActuales;
 
@@ -39,7 +40,7 @@ public class Membresia {
                 return;
             }
         }
-        miembrosActuales.add(nuevoMiembro);
+        Cliente.miembrosActuales.add(new Cliente(nombre, id));;
         nuevoMiembro.setMembresia(true);
         System.out.println("El cliente " + nombre + " con ID " + id + " hace parte ahora de la lista de miembros.");
     }

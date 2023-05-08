@@ -2,17 +2,18 @@ package uiMain;
 import java.util.Scanner;
 import java.util.ArrayList;
 import gestorAplicación.clasesPrincipales.*;
+import baseDatos.Deserializar;
+import baseDatos.Serializar;
 
 public class ui {
-    private static Membresia membresia1 = new Membresia(new Cliente("Juan", 111));
+    private static Membresia membresia1 = new Membresia(new Cliente("Juan", 987));
     public static void main(String[] args) {
+
+		//Deserializar
+		Cliente.miembrosActuales = Deserializar.deserializarMiembros();
         Scanner inp = new Scanner(System.in);
         ArrayList<Reserva> historial = new ArrayList<Reserva>();
-
-        Cliente.miembrosActuales.add(new Cliente("Juan",987));
-        Cliente.miembrosActuales.add(new Cliente("Jose",965));
-        Cliente.miembrosActuales.add(new Cliente("Alex",324));
-        Cliente.miembrosActuales.add(new Cliente("Luis",245));
+		
         Mesa me1 = new Mesa("E", 1, 2);
         Mesa me2 = new Mesa("SJ", 2, 2);
         Mesa me3 = new Mesa("B", 3, 2);
@@ -398,5 +399,8 @@ public static void hacerReserva() {
                 Membresia.verificarMiembro(nombreVerificar, idverificar, clienteVerificar);
                 break;
           }
+		  //Serializar
+		  Serializar.serializarMiembros(Cliente.miembrosActuales);
+
     }
 }
