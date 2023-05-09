@@ -130,6 +130,7 @@ public static void hacerReserva() {
 		int decs = inp.nextInt();
 		if (decs == 1){
 			System.out.println(facturaNow.mostrarFactura());
+			Pago.addFacturasPendientes(facturaNow);
 		}
 		
 	} else {
@@ -213,68 +214,39 @@ public static void hacerReserva() {
 		
 		switch(sel) {
 		    case 1: //PAGAR
-				System.out.println("¿Ya tienes la factura de tu reserva?");
-				System.out.println("1. Sí");
-		    	System.out.println("2. No");
-		    	
-		    	
-		    	int select = inp.nextInt();
 		    	
 		    	System.out.println("Ingrese el id de su reserva");
 		    	int id = inp.nextInt();
 		    	
 		    	Factura facturaCliente = null;
-		    	
-		    	
-		    	switch(select){
-		            case 1:
-		            	ArrayList<Factura> lista = Pago.getFacturasPendientes();
-		            	boolean encontrado = false;
-		            	for (Factura buscarFactura : lista) {
-		            		
-		            		if(buscarFactura.getIDReserva() == id) {
-		            			facturaCliente = buscarFactura;
-		            			encontrado = true;
-		            		    System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaCliente.getFacturaHecha());
-		     			        break;        		
-		    	            }
-		    	        }
-		            	
-		    	        if(encontrado == false) {		    	
-		    	        	ArrayList<Factura> lista1 = Pago.getFacturasPagas();
-		    	        	for (Factura buscarFactura : lista1) {
-		    	        		
-		    	        		if(buscarFactura.getIDReserva() == id) {
-		    	        			encontrado = true;
-			            		    System.out.println("La reserva ya fue pagada");
-			     			        break;  
-			     			        }
-		    	        		}
-		    	        	if(encontrado == false) {
-		    	        		System.out.println("No se ha generado ninguna factura con el id introducido");
-		    	        	}
-		    	        }
-		    	        break;
-		    	        
-		            case 2:
-		            	ArrayList<Reserva> lista2 = Reserva.getReservasHechas();
-		            	encontrado = false;
-		    	        for (Reserva buscarReserva : lista2) {  	    
-		    		        if (buscarReserva.getIdR() == id) {
-		    			        encontrado = true;
-		    			        facturaCliente = new Factura(buscarReserva);
-		    			        facturaCliente.escribirFactura();
-		    			        Pago.addFacturasPendientes(facturaCliente);
-		    			        System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaCliente.getFacturaHecha());
-		    			        break;
-		    		        }
-		    	        }
-		    	        
-		    	        if(encontrado == false) {
-		    				System.out.println("El id introducido no concuerda con ninguno en nuestra lista");
-		            }
-		    	}
 
+		    	ArrayList<Factura> lista = Pago.getFacturasPendientes();
+		    	boolean encontrado = false;
+		    	for (Factura buscarFactura : lista) {
+		            		
+		    		if(buscarFactura.getIDReserva() == id) {
+		    			facturaCliente = buscarFactura;
+		    			encontrado = true;
+		    			System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaCliente.getFacturaHecha());
+		    			break;        		
+		    			}
+		    		}
+		            	
+		    	if(encontrado == false) {		    	
+		    		ArrayList<Factura> lista1 = Pago.getFacturasPagas();
+		    		for (Factura buscarFactura : lista1) {
+		    	        		
+		    			if(buscarFactura.getIDReserva() == id) {
+		    				encontrado = true;
+		    				System.out.println("La reserva ya fue pagada");
+		    				break;  
+		    				}
+		    			}
+		    		if(encontrado == false) {
+		    			System.out.println("No se ha generado ninguna factura con el id introducido");
+		    			}
+		    		}
+		    	
 		    	if(facturaCliente != null) {
 		    		System.out.println("¿Desea cancelar el monto de la factura?"); 			
 			    	System.out.println("1. Sí");
@@ -322,15 +294,16 @@ public static void hacerReserva() {
 		    		System.out.println("Ingrese el id de su reserva");
 			    	int idr = inp.nextInt();
 			    	
-			    	boolean encontrado = false;
+			    	encontrado = false;
 	            	for (Factura buscarFactura : Pago.getFacturasPagas()) {
 	            		
 	            		if(buscarFactura.getIDReserva() == idr) {
 	            			encontrado = true;
 	            			Pago.removePaga(buscarFactura);
-	            		    System.out.println("La factura " + idr + " ha sido reembolsada a su tarjeta usada para el pago");
+	            		    System.out.println("La factura " + idr + " ha sido reembolsada a su tarjeta usada para el pago" + 
+	            			"\nPara finalizar cuentanos cuál fue el motivo de su reembolso");
 	            		    
-	            		    System.out.println("Para finalizar cuentanos cuál fue el motivo de su reembolso");
+	            		    System.out.println("");
 	    		    		System.out.println("1. Problemas con el horario");
 	    		    		System.out.println("2. Problemas con nuestro servicio");
 	    		    		System.out.println("3. Dificultades con el precio y/o medio de pago");
@@ -355,8 +328,10 @@ public static void hacerReserva() {
 	    	        if(encontrado == false) {
 	    				System.out.println("El reembolso de su reserva no fue posible ya que no se ha efectuado ningún pago");
 	    	    }
-		    }
 		}
+	}
+		    	        
+		    
 
 	
 	public static void membresias() {
