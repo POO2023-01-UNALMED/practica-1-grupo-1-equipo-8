@@ -4,13 +4,15 @@ import java.util.ArrayList;
 public class Pago {
     private Factura factura;
     private Mesa mesa;
+    private String medioPago;
     static ArrayList<Factura> facturasPagas = new ArrayList<Factura>();
     static ArrayList<Factura> facturasPendientes = new ArrayList<Factura>();
 
-    public Pago(Factura factura) {
+    public Pago(Factura factura, String medioPago) {
     	this.factura = factura;
+    	this.medioPago = medioPago;
         this.mesa = factura.getMesa();
-    	
+        
     }
     public static void addFacturasPagas(Factura factura) {
     	facturasPagas.add(factura);

@@ -1,4 +1,7 @@
 package gestorAplicación.clasesPrincipales;
+
+import java.util.ArrayList;
+
 public class Factura {
     private Reserva reserva;
     private String facturaHecha;
@@ -47,10 +50,11 @@ public class Factura {
 	}
 
     public void escribirFactura() {
-    	this.facturaHecha =  ("-------------\nRestaurante Un \nId de la reserva: " + id + "\nCliente: " + reserva.getCliente() + 
+    	this.facturaHecha =  ("-------------\nRestaurante Un \nId de la reserva: " + id + "\nCliente: " + cliente + 
     			"\nSede: " + sede + "\nMesa #" + mesa.getId() +  "\nHora: " + reserva.getHora());
     	
-    	if (cliente.getMiembro() == true) {
+    	ArrayList<Cliente> verMembresia = Membresia.getMiembrosActuales();
+    	if (verMembresia.contains(cliente)) {
     		facturaHecha = facturaHecha + "\nComo eres miembro se te aplicará un descuento del 20% \n precioReserva: 80.000$ ";
     		setPrecio(80000);
     	}

@@ -63,7 +63,7 @@ public class Membresia implements Serializable{
         this.cliente = cliente;
     }
 
-    public ArrayList<Cliente> getMiembrosActuales(){
+    public static ArrayList<Cliente> getMiembrosActuales(){
         return miembrosActuales;
     }
 }
