@@ -1,13 +1,14 @@
 package gestorAplicación.clasesPrincipales;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Mesa {
+public class Mesa implements Serializable {
 
     private String idMesa;
     private int capacidad;
     private boolean disponible;
     private String sede;
-    static ArrayList<Mesa> mesasDisponibles = new ArrayList<Mesa>();
+    public static ArrayList<Mesa> mesasDisponibles = new ArrayList<Mesa>();
 
     public Mesa(String sede, int numero, int capacidad) {
         this.idMesa = sede +numero+"-"+capacidad;
@@ -40,7 +41,7 @@ public class Mesa {
     }
 
     public String toString(){
-        return "Mesa: " + idMesa + ", Capacidad: " + capacidad;
+        return "Mesa: " + idMesa + ", Capacidad: " + capacidad + ", Disponibilidad: " + disponible;
     }
     
     public static ArrayList<Mesa> buscarMesas(String Isede, int capacidad){

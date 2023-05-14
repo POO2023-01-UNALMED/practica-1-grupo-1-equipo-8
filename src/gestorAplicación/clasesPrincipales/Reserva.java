@@ -1,13 +1,14 @@
 package gestorAplicación.clasesPrincipales;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Reserva {
+public class Reserva implements Serializable {
     private int hora;
     private static int numeroDeReservas;
 	private int IdR;
     private Cliente cliente;
     private Mesa mesa;
-	private static ArrayList<Reserva> reservasHechas= new ArrayList<Reserva>();
+	public static ArrayList<Reserva> reservasHechas= new ArrayList<Reserva>();
 
 
 	public Reserva(int hora, Cliente cliente, Mesa mesa) {

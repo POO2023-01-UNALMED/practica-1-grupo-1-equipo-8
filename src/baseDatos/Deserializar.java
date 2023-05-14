@@ -10,10 +10,10 @@ import uiMain.ui;
 import gestorAplicación.clasesPrincipales.*;
 
 public class Deserializar {
-    static File archivo = new File("src/baseDatos/temp/miembrosActuales.txt");
+    static File archivo = new File("src/baseDatos/temp");
     public static ArrayList<Cliente> deserializarMiembros(){
         try{
-            FileInputStream file = new FileInputStream(archivo);
+            FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+"/miembrosActuales.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
             ArrayList<Cliente> miembrosActuales = (ArrayList<Cliente>) o.readObject();
@@ -33,6 +33,58 @@ public class Deserializar {
 
         catch(ClassNotFoundException e){
             return new ArrayList<Cliente>();
+        }
+
+    }
+
+    public static ArrayList<Reserva> deserializarReservas(){
+        try{
+            FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+"/reservasHechas.txt"));
+            ObjectInputStream o = new ObjectInputStream(file);
+
+            ArrayList<Reserva> reservasHechas = (ArrayList<Reserva>) o.readObject();
+
+            file.close();
+            o.close();
+            return reservasHechas;
+        }
+        
+        catch(FileNotFoundException e){
+            return new ArrayList<Reserva>();
+        }
+
+        catch(IOException e){
+            return new ArrayList<Reserva>();
+        }
+
+        catch(ClassNotFoundException e){
+            return new ArrayList<Reserva>();
+        }
+
+    }
+
+    public static ArrayList<Mesa> deserializarMesas(){
+        try{
+            FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+"/mesasDisponibles.txt"));
+            ObjectInputStream o = new ObjectInputStream(file);
+
+            ArrayList<Mesa> mesasDisponibles = (ArrayList<Mesa>) o.readObject();
+
+            file.close();
+            o.close();
+            return mesasDisponibles;
+        }
+        
+        catch(FileNotFoundException e){
+            return new ArrayList<Mesa>();
+        }
+
+        catch(IOException e){
+            return new ArrayList<Mesa>();
+        }
+
+        catch(ClassNotFoundException e){
+            return new ArrayList<Mesa>();
         }
 
     }
