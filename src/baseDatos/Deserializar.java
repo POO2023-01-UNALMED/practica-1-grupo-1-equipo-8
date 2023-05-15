@@ -88,5 +88,57 @@ public class Deserializar {
         }
 
     }
+
+    public static ArrayList<Factura> deserializarFacurasPagas(){
+        try{
+            FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+"/facturasPagas.txt"));
+            ObjectInputStream o = new ObjectInputStream(file);
+
+            ArrayList<Factura> facturasPagas = (ArrayList<Factura>) o.readObject();
+
+            file.close();
+            o.close();
+            return facturasPagas;
+        }
+        
+        catch(FileNotFoundException e){
+            return new ArrayList<Factura>();
+        }
+
+        catch(IOException e){
+            return new ArrayList<Factura>();
+        }
+
+        catch(ClassNotFoundException e){
+            return new ArrayList<Factura>();
+        }
+
+    }
+
+    public static ArrayList<Factura> deserializarFacurasPendientes(){
+        try{
+            FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+"/facturasPentientes.txt"));
+            ObjectInputStream o = new ObjectInputStream(file);
+
+            ArrayList<Factura> facturasPendientes = (ArrayList<Factura>) o.readObject();
+
+            file.close();
+            o.close();
+            return facturasPendientes;
+        }
+        
+        catch(FileNotFoundException e){
+            return new ArrayList<Factura>();
+        }
+
+        catch(IOException e){
+            return new ArrayList<Factura>();
+        }
+
+        catch(ClassNotFoundException e){
+            return new ArrayList<Factura>();
+        }
+
+    }
     
 }

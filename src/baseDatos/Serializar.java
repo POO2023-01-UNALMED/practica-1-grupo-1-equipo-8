@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 
 import gestorAplicación.clasesPrincipales.Cliente;
+import gestorAplicación.clasesPrincipales.Factura;
 import gestorAplicación.clasesPrincipales.Reserva;
 import gestorAplicación.clasesPrincipales.Mesa;
+import gestorAplicación.clasesPrincipales.Pago;
 
 import java.util.ArrayList;
 
@@ -71,5 +73,46 @@ public class Serializar {
             System.out.println("Error al escribir en el archivo: " + e.getMessage());
         }
     }
+
+    public static void serializarFacturasPagas(ArrayList<Factura> facturasPagas) {
+
+        try {
+            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+"/facturasPagas.txt"));
+            ObjectOutputStream o = new ObjectOutputStream(f);
+
+            o.writeObject(facturasPagas);
+
+            o.close();
+            f.close();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("No se encuentra el archivo: " + e.getMessage());
+        }
+        catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+
+    }
+
+    public static void serializarFacturasPendientes(ArrayList<Factura> facturasPendientes) {
+
+        try {
+            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+"/facturasPendientes.txt"));
+            ObjectOutputStream o = new ObjectOutputStream(f);
+
+            o.writeObject(facturasPendientes);
+
+            o.close();
+            f.close();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("No se encuentra el archivo: " + e.getMessage());
+        }
+        catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+
+    }
+
 
 }

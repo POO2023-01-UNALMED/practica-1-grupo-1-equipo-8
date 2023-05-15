@@ -1,12 +1,13 @@
 package gestorAplicación.clasesPrincipales;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Pago {
+public class Pago implements Serializable {
     private Factura factura;
     private Mesa mesa;
     private String medioPago;
-    static ArrayList<Factura> facturasPagas = new ArrayList<Factura>();
-    static ArrayList<Factura> facturasPendientes = new ArrayList<Factura>();
+    public static ArrayList<Factura> facturasPagas = new ArrayList<Factura>();
+    public static ArrayList<Factura> facturasPendientes = new ArrayList<Factura>();
 
     public Pago(Factura factura, String medioPago) {
     	this.factura = factura;

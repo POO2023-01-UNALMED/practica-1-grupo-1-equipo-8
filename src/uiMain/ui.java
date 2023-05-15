@@ -13,6 +13,8 @@ public class ui {
 		Cliente.miembrosActuales = Deserializar.deserializarMiembros();
 		Reserva.reservasHechas = Deserializar.deserializarReservas();
 		Mesa.mesasDisponibles = Deserializar.deserializarMesas();
+		Pago.facturasPagas = Deserializar.deserializarFacurasPagas();
+		Pago.facturasPendientes = Deserializar.deserializarFacurasPendientes();
 
         Scanner inp = new Scanner(System.in);
         ArrayList<Reserva> historial = new ArrayList<Reserva>();
@@ -64,9 +66,6 @@ public class ui {
             	System.out.println("Muchas gracias por su visita vuelva pronto.");
             	break;
     }
-
-	Serializar.serializarReservas(Reserva.reservasHechas);
-	Serializar.serializarMesas(Mesa.mesasDisponibles);
 }
 
 //RESERVA
@@ -144,6 +143,10 @@ public static void hacerReserva() {
 	} else {
 		System.out.println("Sentimos que no desee finalizar su reserva "  + clienteNow.getNombre() +", lo esperamos en una nueva ocasion. ");
 	}
+	Serializar.serializarReservas(Reserva.reservasHechas);
+	Serializar.serializarMesas(Mesa.mesasDisponibles);
+	Serializar.serializarFacturasPagas(Pago.facturasPagas);
+	Serializar.serializarFacturasPendientes(Pago.facturasPendientes);
 }
 
 //REPROGRAMAR
@@ -207,6 +210,10 @@ public static void hacerReserva() {
             else {
             	System.out.println("Sentimos que no desee finalizar su reprogamacion de reserva, lo esperamos en una nueva ocasión.");
             }
+		Serializar.serializarReservas(Reserva.reservasHechas);
+		Serializar.serializarMesas(Mesa.mesasDisponibles);
+		Serializar.serializarFacturasPagas(Pago.facturasPagas);
+		Serializar.serializarFacturasPendientes(Pago.facturasPendientes);
 	}
 	
 	//PAGO
@@ -365,6 +372,9 @@ public static void hacerReserva() {
 	    				System.out.println("El reembolso de su reserva no fue posible ya que no se ha efectuado ningún pago");
 	    	    }
 		    }
+
+			Serializar.serializarFacturasPagas(Pago.facturasPagas);
+			Serializar.serializarFacturasPendientes(Pago.facturasPendientes);
 		}
 
 	
