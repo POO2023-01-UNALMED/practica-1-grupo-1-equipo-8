@@ -8,12 +8,13 @@ public class Pago implements Serializable {
     private String medioPago;
     public static ArrayList<Factura> facturasPagas = new ArrayList<Factura>();
     public static ArrayList<Factura> facturasPendientes = new ArrayList<Factura>();
+    public static ArrayList<Pago> registroPagos = new ArrayList<Pago>();
 
     public Pago(Factura factura, String medioPago) {
     	this.factura = factura;
     	this.medioPago = medioPago;
         this.mesa = factura.getMesa();
-        
+        registroPagos.add(this);  
     }
     public static void addFacturasPagas(Factura factura) {
     	facturasPagas.add(factura);
@@ -33,5 +34,17 @@ public class Pago implements Serializable {
     }
     public static void removePendiente(Factura factura) {
     	facturasPendientes.remove(factura);
+    }
+    public Factura getFactura() {
+    	return factura;
+    }
+    public String getMedioPago() {
+    	return medioPago;
+    }
+    public static ArrayList<Pago> getRegistroPagos(){
+    	return registroPagos;
+    }
+    public static void removePagos(Pago pago) {
+    	registroPagos.remove(pago);
     }
 }
