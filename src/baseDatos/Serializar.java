@@ -97,7 +97,7 @@ public class Serializar {
     public static void serializarFacturasPendientes(ArrayList<Factura> facturasPendientes) {
 
         try {
-            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+"/facturasPendientes.txt"));
+            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+"/facturasPendientes.txt"), true);
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             o.writeObject(facturasPendientes);
