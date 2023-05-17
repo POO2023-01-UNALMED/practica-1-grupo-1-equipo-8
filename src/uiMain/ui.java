@@ -276,14 +276,14 @@ public static void hacerReserva() {
 		    			}
 		    		}
 		            	
-		    	if(encontrado == false) {		    	
-		    		ArrayList<Factura> lista1 = Pago.getFacturasPagas();
-		    		for (Factura buscarFactura : lista1) {
-		    	        		
-		    			if(buscarFactura.getIDReserva() == id) {
-		    				encontrado = true;
-		    				System.out.println("La reserva ya fue pagada");
-		    				break;  
+					if(encontrado == false) {		    	
+						ArrayList<Pago> lista1 = Pago.getRegistroPagos();
+						for (Pago buscarPago : lista1) {
+									
+							if(buscarPago.getFactura().getIDReserva() == id) {
+								encontrado = true;
+								System.out.println("La reserva ya fue pagada en" + buscarPago.getMedioPago());
+								break;  
 		    				}
 		    			}
 		    		if(encontrado == false) {
@@ -315,7 +315,7 @@ public static void hacerReserva() {
 		    	        		    System.out.println("Su pago ha sido registrado");
 		    	        		    Pago.removePendiente(facturaCliente);
 		    	        		    Pago.addFacturasPagas(facturaCliente);
-		    	        		    Pago pagado = new Pago(facturaCliente, "En línea");
+		    	        		    Pago pagado = new Pago(facturaCliente, "línea");
 		    	        	    }
 		    	        	    
 		    	        	    else {
