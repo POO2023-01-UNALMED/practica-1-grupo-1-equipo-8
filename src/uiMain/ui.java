@@ -37,6 +37,9 @@ public class ui implements Serializable{
         Cliente cli4 = new Cliente ("Alberto", 546);
         Reserva re1 = new Reserva(6, cli1, me1);
         Reserva re2 = new Reserva(6, cli3, me11);
+		Factura factura = new Factura(re2);
+		factura.escribirFactura();
+
 
         System.out.println(" ---------------------------------------------");
         System.out.println("|Bienvenido a RestauranteUN, escoja su opción:|");
@@ -153,65 +156,91 @@ public static void hacerReserva() {
 //REPROGRAMAR
 	public static void hacerReprogramacion() {
 		Scanner inp = new Scanner(System.in);
-		System.out.println("Ingrese la ID de su reserva:");
-        int b2 = inp.nextInt();
-        
-        	System.out.println("Escoja la sede en la que quiera reprogramar su reserva:");
-            System.out.println("1. Bello");
-            System.out.println("2. Envigado");
-            System.out.println("3. San Javier");
-            int sedeR = inp.nextInt();
-            String Isede = "";
-            
-            if (sedeR == 1) {
-            	Isede = "B";
-            } else if (sedeR == 2) {
-            	Isede = "E";
-            } else if (sedeR == 3) {
-            	Isede = "SJ";
-            }
-            System.out.println("Ingrese la nueva cantidad de personas[2-4]:");
-            int cantidadR = inp.nextInt();
-            ArrayList<Mesa> mesasRequeridas = Mesa.buscarMesas(Isede, cantidadR);
-            
-            System.out.println("Ingrese la hora en la que quiere reprogramar su reserva [6pm-12pm].(escriba solo el numero): ");
-            int horaR = inp.nextInt();
-            
-            for (Mesa m : mesasRequeridas) {
-            	m.setDisponibilidad(Reserva.validarHorarioDisponible(horaR, m));
-            	}
-            ArrayList<Mesa> mesasF = new ArrayList<Mesa>();
-            for (Mesa m : mesasRequeridas) {
-            	if (m.getDisponibilidad()) {
-            		mesasF.add(m);
-        }
-	}
-            if (mesasF.size() == 0 ){
-                System.out.println("Lo sentimos, pero no hay disponibilidad de mesas con estas caracteristicas");
-            } else {
-                System.out.println("Escoga una de las mesas disponibles:");
-                int c = 1;
-                for (Mesa mesa : mesasF){
-                	if (mesa.getDisponibilidad()) {
-                    System.out.println(c + ". "+ mesa.toString());
-                    c++;
-                	}
+		System.out.println("Ingrese el ID de su reserva:");
+        int id = inp.nextInt();
+        Factura facturaCliente = null;
+    	
+    	ArrayList<Factura> list = Pago.getFacturasPendientes();
+    	boolean encontrado = false;
+    	for (Factura buscarFactura : list) {
+            		
+    		if(buscarFactura.getIDReserva() == id) {
+    			facturaCliente = buscarFactura;
+    			encontrado = true;
+    			System.out.println("Escoja la sede en la que quiera reprogramar su reserva:");
+                System.out.println("1. Bello");
+                System.out.println("2. Envigado");
+                System.out.println("3. San Javier");
+                int sedeR = inp.nextInt();
+                String Isede = "";
+                
+                if (sedeR == 1) {
+                	Isede = "B";
+                } else if (sedeR == 2) {
+                	Isede = "E";
+                } else if (sedeR == 3) {
+                	Isede = "SJ";
                 }
+                System.out.println("Ingrese la nueva cantidad de personas[2-4]:");
+                int cantidadR = inp.nextInt();
+                ArrayList<Mesa> mesasRequeridas = Mesa.buscarMesas(Isede, cantidadR);
+                
+                System.out.println("Ingrese la hora en la que quiere reprogramar su reserva [6pm-12pm].(escriba solo el numero): ");
+                int horaR = inp.nextInt();
+                
+                for (Mesa m : mesasRequeridas) {
+                	m.setDisponibilidad(Reserva.validarHorarioDisponible(horaR, m));
+                	}
+                ArrayList<Mesa> mesasF = new ArrayList<Mesa>();
+                for (Mesa m : mesasRequeridas) {
+                	if (m.getDisponibilidad()) {
+                		mesasF.add(m);
             }
-            
-            int mesaElegidaR = inp.nextInt();
-            Mesa mesaEl = mesasF.get(mesaElegidaR-1);
-            System.out.println("¿Está seguro/a de reprogramar su reserva y cambiar sus parámetros?");
-            System.out.println("1. Si");
-            System.out.println("2. No");
-            int confirmacion = inp.nextInt();
-            if(confirmacion == 1) {
-            System.out.println("Su reserva ha sido actualizada, lo esperamos en una nueva ocasión.");       
-        }
-            else {
-            	System.out.println("Sentimos que no desee finalizar su reprogamacion de reserva, lo esperamos en una nueva ocasión.");
+    	}
+                if (mesasF.size() == 0 ){
+                    System.out.println("Lo sentimos, pero no hay disponibilidad de mesas con estas caracteristicas");
+                } else {
+                    System.out.println("Escoga una de las mesas disponibles:");
+                    int c = 1;
+                    for (Mesa mesa : mesasF){
+                    	if (mesa.getDisponibilidad()) {
+                        System.out.println(c + ". "+ mesa.toString());
+                        c++;
+                    	}
+                    }
+                }
+                
+                int mesaElegidaR = inp.nextInt();
+                Mesa mesaEl = mesasF.get(mesaElegidaR-1);
+                System.out.println("¿Está seguro/a de reprogramar su reserva y cambiar sus parámetros?");
+                System.out.println("1. Si");
+                System.out.println("2. No");
+                int confirmacion = inp.nextInt();
+                if(confirmacion == 1) {
+                System.out.println("Su reserva ha sido actualizada, lo esperamos en una nueva ocasión.");       
             }
-		Serializar.serializarReservas(Reserva.reservasHechas);
+                else {
+                	System.out.println("Sentimos que no desee finalizar su reprogamacion de reserva, lo esperamos en una nueva ocasión.");
+                }
+                break;
+    		}
+    	}
+    	if(encontrado == false) {		    	
+    		ArrayList<Factura> lista1 = Pago.getFacturasPagas();
+    		for (Factura buscarFactura : lista1) {
+    	        		
+    			if(buscarFactura.getIDReserva() == id) {
+    				encontrado = true;
+    				System.out.println("La reserva ya fue pagada");
+    				break;  
+    				}
+    			}
+    		if(encontrado == false) {
+    			System.out.println("No se ha generado ninguna factura con el ID introducido");
+    			}
+    		}
+    	
+    	Serializar.serializarReservas(Reserva.reservasHechas);
 		Serializar.serializarMesas(Mesa.mesasDisponibles);
 		Serializar.serializarFacturasPagas(Pago.facturasPagas);
 		Serializar.serializarFacturasPendientes(Pago.facturasPendientes);
