@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import uiMain.ui;
+import gestorAplicación.clasesHeredadas.Cliente;
 import gestorAplicación.clasesPrincipales.*;
 
 public class Deserializar {

@@ -35,13 +35,14 @@ public class Mesa implements Serializable {
         return sede;
     }
     
+    
     //set
     public void setDisponibilidad(boolean disponible){
         this.disponible = disponible;
     }
 
     public String toString(){
-        return "Mesa: " + idMesa + ", Capacidad: " + capacidad + ", Disponibilidad: " + disponible;
+        return "Mesa: " + idMesa + ", Capacidad: " + capacidad;
     }
     
     public static ArrayList<Mesa> buscarMesas(String Isede, int capacidad){

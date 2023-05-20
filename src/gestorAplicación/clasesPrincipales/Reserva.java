@@ -2,10 +2,12 @@ package gestorAplicación.clasesPrincipales;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import gestorAplicación.clasesHeredadas.Cliente;
+import gestorAplicación.clasesHeredadas.Trabajador;
+
 public class Reserva implements Serializable {
     private int hora;
-    private static int numeroDeReservas;
-	private int IdR;
+	private String IdR;
     private Cliente cliente;
     private Mesa mesa;
 	public static ArrayList<Reserva> reservasHechas= new ArrayList<Reserva>();
@@ -15,10 +17,9 @@ public class Reserva implements Serializable {
 		this.hora = hora;
 		this.cliente = cliente;
 		this.mesa = mesa;
-		Reserva.numeroDeReservas++;
-		this.IdR = Reserva.numeroDeReservas;
+		this.IdR= hora+"-"+mesa.getId();
 		reservasHechas.add(this);
-		
+		Trabajador.addMesasElegir(this);
 	}
 	
 
@@ -43,26 +44,27 @@ public class Reserva implements Serializable {
 	public void setMesa(Mesa mesa) {
 		this.mesa = mesa;
 	}
-	public int getIdR(){
+	public String getIdR(){
 		return IdR;
 	}
-	public static int getNumeroDeReservas(){
-		return Reserva.numeroDeReservas;
-	} 
 
-	public static boolean validarHorarioDisponible(int hora, Mesa m){
-            for (Reserva reserva : reservasHechas){
-            	if (reserva.hora == hora && reserva.mesa == m){
-            		return false;
-            }
-        }
-        return true;
-    }
-
+	public static ArrayList<Mesa> validarHorarioDisponible(ArrayList<Mesa> mesas, int hora) {
+		ArrayList<Mesa> mesasReservadas = new ArrayList<>();
+		for (Mesa m : mesas) {
+			for (Reserva r : Reserva.reservasHechas) {
+				if (r.getIdR().trim().equals(hora+"-"+m.getId())) {
+					mesasReservadas.add(m);
+				}
+			}
+		}
+		mesas.removeAll(mesasReservadas);
+		return mesas;
+	}
 		
 	public static ArrayList<Reserva> getReservasHechas(){
 		return reservasHechas;
 	}
+
 	public static String devolverSede(int sede){
 		String Isede = "";
 		if (Sedes.B.ordinal() == sede) {

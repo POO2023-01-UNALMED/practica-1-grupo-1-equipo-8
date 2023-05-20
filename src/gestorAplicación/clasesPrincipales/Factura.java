@@ -1,6 +1,7 @@
 package gestorAplicación.clasesPrincipales;
 import java.io.Serializable;
-import java.util.ArrayList;
+
+import gestorAplicación.clasesHeredadas.Cliente;
 
 public class Factura implements Serializable {
     private Reserva reserva;
@@ -9,7 +10,7 @@ public class Factura implements Serializable {
 	private Mesa mesa;
 	private int precio;
 	private String sede;
-	private int id;
+	private String id;
 	
     public Factura(Reserva reserva) {
     	this.reserva = reserva;
@@ -46,14 +47,15 @@ public class Factura implements Serializable {
 		return sede;
 	}    
 	
-	public int getIDReserva() {
+	public String getIDReserva() {
 	    return id;
 	}
 
     public void escribirFactura() {
-    	this.facturaHecha =  ("-------------\nRestaurante Un \nId de la reserva: " + id + "\nCliente: " + cliente + 
+    	this.facturaHecha =  ("-------------\nRestaurante Un \nId de la reserva: " + id + "\nCliente: " + reserva.getCliente() + 
     			"\nSede: " + sede + "\nMesa #" + mesa.getId() +  "\nHora: " + reserva.getHora());
-    	if(cliente.getMiembro() == true) {
+				
+    	if(cliente.getMembresia() != null) {
     		this.facturaHecha = facturaHecha + "\nComo eres miembro se te aplicará un descuento del 20% \nPrecio: 80.000$";
     		setPrecio(80000);
     	}

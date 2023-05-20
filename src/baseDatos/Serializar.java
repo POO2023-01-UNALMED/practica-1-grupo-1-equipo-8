@@ -5,12 +5,10 @@ import java.io.FileOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
-
-import gestorAplicación.clasesPrincipales.Cliente;
+import gestorAplicación.clasesHeredadas.Cliente;
 import gestorAplicación.clasesPrincipales.Factura;
-import gestorAplicación.clasesPrincipales.Reserva;
 import gestorAplicación.clasesPrincipales.Mesa;
-import gestorAplicación.clasesPrincipales.Pago;
+import gestorAplicación.clasesPrincipales.Reserva;
 
 import java.util.ArrayList;
 
