@@ -121,27 +121,15 @@ public class ui {
 	 //TRABAJADOR
 public static void ingresarTrabajo() {
 	Scanner inp = new Scanner(System.in);
-	
-	Trabajador trabajador = null;
-	System.out.println("Para comenzar, ingrese su nombre:");
-	String n1 = inp.nextLine();
-	System.out.println("ingrese su numero de identificación:");
-	int i1 = inp.nextInt();
-	ArrayList<Trabajador> lista = Trabajador.getTrabajadoresActivos();
-	for (Trabajador Btra : lista) {
-		if(Btra.getNombre() == n1) {
-			if(Btra.getId() == i1) {
-				trabajador = Btra;
-				break;
-			}
-		}
-	}
-
-	if(trabajador != null) {
-		
+	System.out.println("Ingrese su nombre");
+	String na = inp.nextLine();
+	System.out.println("Ingrese su número de identificación");
+	int na1 = inp.nextInt();
+	Trabajador trabajador = new Trabajador(na, na1, "6pm-12pm");
+	Trabajador.addTrabajadoresActivos(trabajador);
+	System.out.println("¡Listo! Ahora eres un trabajador de RestauranteUN");
 	}
 	
-	}
 public static void asignarMesa() {
 	Scanner inp = new Scanner(System.in);
 
