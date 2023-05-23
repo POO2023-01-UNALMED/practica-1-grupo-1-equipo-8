@@ -41,7 +41,8 @@ public class ui {
         Cliente cli4 = new Cliente ("Alberto", 546);
         Reserva re1 = new Reserva(6, cli1, me1);
 		Reserva re2 = new Reserva(7, cli2, me9);
-
+		Factura f1 = new Factura(re1);
+		Factura f2 = new Factura(re2);
 
 		System.out.println("Bienvenido, escoja el menú al que desea entrar");
 		System.out.println("1. Cliente");
@@ -271,13 +272,12 @@ public static void hacerReserva() {
 	if (conf == 1){
 		Reserva reservaDone = new Reserva(hora, clienteNow, mesaEl);
 		Factura facturaNow = new Factura(reservaDone);
-		facturaNow.escribirFactura();
 		System.out.println("Desea visualizar su factura");
 		System.out.println("1. Si");
 		System.out.println("2. No");
 		int decs = inp.nextInt();
 		if (decs == 1){
-			System.out.println(facturaNow.mostrarFactura());
+			System.out.println(facturaNow.toString());
 		}
 		
 	} else {
@@ -289,6 +289,7 @@ public static void hacerReserva() {
 	Serializar.serializarFacturasPagas(Pago.facturasPagas);
 	Serializar.serializarFacturasPendientes(Pago.facturasPendientes);
 	inp.close();
+	System.out.println(Pago.getFacturasPendientes());
 }
 
 //REPROGRAMAR
@@ -383,149 +384,52 @@ public static void hacerReprogramacion() {
 	Serializar.serializarFacturasPagas(Pago.facturasPagas);
 	Serializar.serializarFacturasPendientes(Pago.facturasPendientes);
 }
-	
 	//PAGO
-	public static void procederPago() {
-		
-		Scanner inp = new Scanner(System.in);
-		
-		System.out.println("¿Que deseas hacer?");
-		System.out.println("1. Pagar");
-    	System.out.println("2. Reembolsar");
-		
-		int sel = inp.nextInt();
-		
-		switch(sel) {
-		    case 1: //PAGAR
-		    	
-			Scanner inp2 = new Scanner(System.in);
-		    	System.out.println("Ingrese el id de su reserva");
-		    	String id = inp2.nextLine();
-		    	Factura facturaCliente = null;
-		    	
-		    	ArrayList<Factura> lista = Pago.getFacturasPendientes();
-		    	boolean encontrado = false;
-		    	for (Factura buscarFactura : lista) {
-		            		
-		    		if(buscarFactura.getIDReserva().trim() == id) {
-		    			facturaCliente = buscarFactura;
-		    			encontrado = true;
-		    			System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaCliente.getFacturaHecha());
-		    			break;        		
-		    			}
-		    		}
-		            	
-					if(encontrado == false) {		    	
-						ArrayList<Pago> lista1 = Pago.getRegistroPagos();
-						for (Pago buscarPago : lista1) {
-									
-							if(buscarPago.getFactura().getIDReserva() == id) {
-								encontrado = true;
-								System.out.println("La reserva ya fue pagada en" + buscarPago.getMedioPago());
-								break;  
-		    				}
-		    			}
-		    		if(encontrado == false) {
-		    			System.out.println("No se ha generado ninguna factura con el id introducido");
-		    			}
-		    		}
+public static void procederPago(){
+	Scanner inp = new Scanner(System.in);
+	System.out.println("¿Que deseas hacer?");
+	System.out.println("1. Pagar");
+	System.out.println("2. Reembolsar");
+	
+	int sel = inp.nextInt();
+	switch (sel) {
 
-		    	if(facturaCliente != null) {
-		    		System.out.println("¿Desea cancelar el monto de la factura?"); 			
-			    	System.out.println("1. Sí");
-			    	System.out.println("2. No");
-			    	
-			    	int opc = inp.nextInt();
-			    	
-			    	    switch(opc){
-			            case 1:
-			        	    System.out.println("Cuál será su método de pago:");
-			        	    System.out.println("1. En línea");
-		    	    	    System.out.println("2. Efectivo");
-		    	    	    
-		           	        int opc1 = inp.nextInt();
-		            	    
-		        	        switch(opc1){
-		    	            case 1:
-		    	        	    System.out.println("Ingrese el saldo de su tarjeta:");
-		    	        	    int saldo = inp.nextInt();
-		    	        	    
-		    	        	    if(saldo >= facturaCliente.getPrecio()) {
-		    	        		    System.out.println("Su pago ha sido registrado");
-		    	        		    Pago.removePendiente(facturaCliente);
-		    	        		    Pago.addFacturasPagas(facturaCliente);
-		    	        		    Pago pagado = new Pago(facturaCliente, "línea");
-		    	        	    }
-		    	        	    
-		    	        	    else {
-		    	        		    System.out.println("Su saldo no es suficiente, aún no podremos confirmar su reserva");
-		    	        	    }
-		    	        	    break;
-		    	            case 2:
-		        	    	    System.out.println("Haga su pago en caja al llegar a la sede " + facturaCliente.getSede());
-		        	    	    Pago.removePendiente(facturaCliente);
-		        	    	    Pago.addFacturasPagas(facturaCliente);
-		        	    	    Pago pagado = new Pago(facturaCliente, "Efectivo");
-		    	            }		   
-		        	        break;
-			            case 2:
-			                System.out.println("Ya que no fue posible realizar el pago de la reserva #" + facturaCliente.getIDReserva()
-			                + " aún no podremos confirmar su reserva");
-			    	    }    
+		case 1:
+		Scanner inp2 = new Scanner(System.in);
+		System.out.println("Ingrese la ID de su reserva");
+		String id = inp2.nextLine();
+		System.out.println(Pago.getFacturasPendientes());
+		Factura.buscarFactura(Pago.getFacturasPendientes(), id);
+		Factura facturaNow = null;
+		System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaNow);
+		if(facturaNow != null) {
+			System.out.println("¿Desea cancelar el monto de la factura?"); 			
+			System.out.println("1. Sí");
+			System.out.println("2. No");
+			
+			int opc = inp.nextInt();
+			if (opc == 1){
+				System.out.println("Cuál será su método de pago:");
+			    System.out.println("1. En línea");
+		    	System.out.println("2. Efectivo");	    
+		        int opc1 = inp.nextInt();
+				if (opc1 == 1){
+					System.out.println("Ingrese el saldo de su tarjeta");
+					int saldo = inp.nextInt();
+					Cliente.pagoEnLinea(facturaNow, saldo);
 				}
-		    	break;	    	
-		    	case 2:  //REEMBOLSO
-		    		
-		    		System.out.println("Ingrese el id de su reserva");
-			    	String idr = inp.nextLine();
-			    	
-			    	encontrado = false;
-	            	for (Factura buscarFactura : Pago.getFacturasPagas()) {
-	            		
-	            		if(buscarFactura.getIDReserva() == idr) {
-	            			encontrado = true;
-	            			Pago.removePaga(buscarFactura);
-	            			
-	            			ArrayList<Pago> listaP = Pago.getRegistroPagos();
-	    		    		for (Pago buscarPago : listaP) {
-	    		    			
-	    		    			if(buscarPago.getFactura() == buscarFactura) {
-	    		    				Pago.removePagos(buscarPago);
-	    		    				break;
-	    		    			}
-	    		    		}
-	            		    System.out.println("La factura " + idr + " ha sido reembolsada a su tarjeta usada para el pago");
-	            		    
-	            		    System.out.println("Para finalizar cuentanos cuál fue el motivo de su reembolso");
-	    		    		System.out.println("1. Problemas con el horario");
-	    		    		System.out.println("2. Problemas con nuestro servicio");
-	    		    		System.out.println("3. Dificultades con el precio y/o medio de pago");
-	    		    		System.out.println("4. Otro (especificar)");
-	    		    		int opc2 = inp.nextInt();
-	    		    		
-	    		    		switch(opc2) {
-	    		    		case 1, 2, 3:
-	    		    			System.out.println("Lamentamos las molestias causadas, intentaremos solucionar su problema lo más rápido posible");
-	    		    		break;
-	    		    		
-	    		    		case 4:
-	    		    			System.out.println("Dinos cual fue su problema");
-	    		    			String problema = inp.next();
-	    		    			System.out.println("Gracias por notificarnos, haremos lo posible para solucionar su problema lo más rápido posible");
-	    		    		}
-	    		    		
-	     			        break;        		
-	    	            }
-	    	        }
-	            	
-	    	        if(encontrado == false) {
-	    				System.out.println("El reembolso de su reserva no fue posible ya que no se ha efectuado ningún pago");
-	    	    }
-		    }
-
-			Serializar.serializarFacturasPagas(Pago.facturasPagas);
-			Serializar.serializarFacturasPendientes(Pago.facturasPendientes);
+				else{
+					Cliente.PagoEfectivo(facturaNow);
+				}
+			}	else	{
+				System.out.println("Ya que no fue posible realizar el pago de la reserva #" + facturaNow.getIDReserva() + " aún no podremos confirmar su reserva");
+			}
+			break;
 		}
+	}
+	Serializar.serializarFacturasPagas(Pago.facturasPagas);
+	Serializar.serializarFacturasPendientes(Pago.facturasPendientes);
+}
 
 	
 	public static void membresias() {

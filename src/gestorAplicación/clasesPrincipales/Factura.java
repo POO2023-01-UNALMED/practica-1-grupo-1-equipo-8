@@ -1,5 +1,6 @@
 package gestorAplicación.clasesPrincipales;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import gestorAplicación.clasesHeredadas.Cliente;
 
@@ -51,8 +52,8 @@ public class Factura implements Serializable {
 	    return id;
 	}
 
-    public void escribirFactura() {
-    	this.facturaHecha =  ("-------------\nRestaurante Un \nId de la reserva: " + id + "\nCliente: " + reserva.getCliente() + 
+    public String toString() {
+    	String facturaHecha =  ("-------------\nRestaurante Un \nId de la reserva: " + id + "\nCliente: " + reserva.getCliente() + 
     			"\nSede: " + sede + "\nMesa #" + mesa.getId() +  "\nHora: " + reserva.getHora());
 				
     	if(cliente.getMembresia() != null) {
@@ -64,8 +65,14 @@ public class Factura implements Serializable {
     		setPrecio(100000);
     	}
 		facturaHecha = facturaHecha + "\n-------------";
+
+		return facturaHecha;
     }
-	public String mostrarFactura(){
-		return this.facturaHecha;
-	}
+
+	public static void buscarFactura(ArrayList<Factura> facturas,String id){
+        for (Factura f : facturas){
+			System.out.println(f.getReserva().getIdR().trim());
+			System.out.println(f.getReserva().getIdR().trim() == id);
+			}
+		}
 }

@@ -118,7 +118,7 @@ public class Deserializar {
 
     public static ArrayList<Factura> deserializarFacurasPendientes(){
         try{
-            FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+"/facturasPentientes.txt"));
+            FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+"/facturasPendientes.txt"));
             ObjectInputStream o = new ObjectInputStream(file);
 
             ArrayList<Factura> facturasPendientes = (ArrayList<Factura>) o.readObject();

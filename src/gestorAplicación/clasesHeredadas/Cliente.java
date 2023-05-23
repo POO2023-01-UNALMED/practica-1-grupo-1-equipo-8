@@ -1,8 +1,12 @@
 package gestorAplicación.clasesHeredadas;
 
 import java.util.ArrayList;
+
+import gestorAplicación.clasesPrincipales.Factura;
 import gestorAplicación.clasesPrincipales.Membresia;
+import gestorAplicación.clasesPrincipales.Pago;
 import gestorAplicación.clasesPrincipales.Persona;
+import gestorAplicación.*;
 
 public class Cliente extends Persona {
     public static ArrayList<Cliente> miembrosActuales = new ArrayList<Cliente>();
@@ -40,5 +44,23 @@ public class Cliente extends Persona {
 
     public static ArrayList<Cliente> getMiembrosActuales() {
         return miembrosActuales;
+    }
+    public static void pagoEnLinea(Factura facturaNow, int saldo){
+        if(saldo >= facturaNow.getPrecio()) {
+            System.out.println("Su pago ha sido registrado");
+            Pago.removePendiente(facturaNow);
+            Pago.addFacturasPagas(facturaNow);
+            Pago pagado = new Pago(facturaNow, "línea");
+        }
+        else {
+            System.out.println("Su saldo no es suficiente, aún no podremos confirmar su reserva");
+        }
+    }
+
+    public static void PagoEfectivo(Factura facturaNow){
+        System.out.println("Haga su pago en caja al llegar a la sede " + facturaNow.getSede());
+		Pago.removePendiente(facturaNow);
+		Pago.addFacturasPagas(facturaNow);
+	    Pago pagado = new Pago(facturaNow, "Efectivo");
     }
 }
