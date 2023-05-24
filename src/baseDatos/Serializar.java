@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import gestorAplicación.clasesHeredadas.Cliente;
+import gestorAplicación.clasesHeredadas.Trabajador;
 import gestorAplicación.clasesPrincipales.Factura;
 import gestorAplicación.clasesPrincipales.Mesa;
 import gestorAplicación.clasesPrincipales.Reserva;
@@ -99,6 +100,46 @@ public class Serializar {
             ObjectOutputStream o = new ObjectOutputStream(f);
 
             o.writeObject(facturasPendientes);
+
+            o.close();
+            f.close();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("No se encuentra el archivo: " + e.getMessage());
+        }
+        catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+
+    }
+
+    public static void serializarTrabajadoresActivos(ArrayList<Trabajador> trabajadoresActivos) {
+
+        try {
+            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+"/trabajadoresActivos.txt"));
+            ObjectOutputStream o = new ObjectOutputStream(f);
+
+            o.writeObject(trabajadoresActivos);
+
+            o.close();
+            f.close();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("No se encuentra el archivo: " + e.getMessage());
+        }
+        catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+
+    }
+
+    public static void serializarMesasElegir(ArrayList<Reserva> mesasElegir) {
+
+        try {
+            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+"/mesasElegir.txt"));
+            ObjectOutputStream o = new ObjectOutputStream(f);
+
+            o.writeObject(mesasElegir);
 
             o.close();
             f.close();

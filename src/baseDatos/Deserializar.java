@@ -6,11 +6,12 @@ import java.io.IOException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import uiMain.ui;
 import gestorAplicación.clasesHeredadas.Cliente;
+import gestorAplicación.clasesHeredadas.Trabajador;
 import gestorAplicación.clasesPrincipales.*;
 
 public class Deserializar {
+
     static File archivo = new File("src/baseDatos/temp");
     public static ArrayList<Cliente> deserializarMiembros(){
         try{
@@ -144,6 +145,69 @@ public class Deserializar {
     } else {
         System.out.println("El archivo de facturas pendientes no existe.");
         return new ArrayList<Factura>();
+    }
+}
+
+public static ArrayList<Trabajador> deserializarTrabajadoresActivos() {
+    String rutaArchivo = archivo.getAbsolutePath() + "/trabajadoresActivos.txt";
+    File archivoTrabajadores = new File(rutaArchivo);
+
+    if (archivoTrabajadores.exists()) {
+        try {
+            FileInputStream file = new FileInputStream(archivoTrabajadores);
+            ObjectInputStream o = new ObjectInputStream(file);
+
+            ArrayList<Trabajador> trabajadoresActivos = (ArrayList<Trabajador>) o.readObject();
+
+            file.close();
+            o.close();
+
+            return trabajadoresActivos;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<Trabajador>();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ArrayList<Trabajador>();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<Trabajador>();
+        }
+    } else {
+        System.out.println("El archivo de facturas pendientes no existe.");
+        return new ArrayList<Trabajador>();
+    }
+}
+
+
+public static ArrayList<Reserva> deserializarMesasElegir() {
+    String rutaArchivo = archivo.getAbsolutePath() + "/mesasElegir.txt";
+    File archivoMesasElegir = new File(rutaArchivo);
+
+    if (archivoMesasElegir.exists()) {
+        try {
+            FileInputStream file = new FileInputStream(archivoMesasElegir);
+            ObjectInputStream o = new ObjectInputStream(file);
+
+            ArrayList<Reserva> mesasElegir = (ArrayList<Reserva>) o.readObject();
+
+            file.close();
+            o.close();
+
+            return mesasElegir;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<Reserva>();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ArrayList<Reserva>();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<Reserva>();
+        }
+    } else {
+        System.out.println("El archivo de facturas pendientes no existe.");
+        return new ArrayList<Reserva>();
     }
 }
     

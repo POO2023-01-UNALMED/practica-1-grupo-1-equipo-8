@@ -14,6 +14,8 @@ public class ui {
     public static void main(String[] args) {
 
 		//Deserializar
+		Trabajador.trabajadoresActivos = Deserializar.deserializarTrabajadoresActivos();
+		Trabajador.mesasElegir = Deserializar.deserializarMesasElegir();
 		Cliente.miembrosActuales = Deserializar.deserializarMiembros();
 		Reserva.reservasHechas = Deserializar.deserializarReservas();
 		Mesa.mesasDisponibles = Deserializar.deserializarMesas();
@@ -129,6 +131,9 @@ public static void ingresarTrabajo() {
 	Trabajador trabajador = new Trabajador(na, na1, "6pm-12pm");
 	Trabajador.addTrabajadoresActivos(trabajador);
 	System.out.println("¡Listo! Ahora eres un trabajador de RestauranteUN");
+
+	Serializar.serializarTrabajadoresActivos(Trabajador.trabajadoresActivos);
+	Serializar.serializarMesasElegir(Trabajador.mesasElegir);
 	}
 	
 public static void asignarMesa() {
@@ -189,6 +194,12 @@ public static void asignarMesa() {
 	else {
 		System.out.println("Lo sentimos, no encontramos ningún trabajador con los datos introducidos");
 		}
+
+
+		Serializar.serializarTrabajadoresActivos(Trabajador.trabajadoresActivos);
+		Serializar.serializarMesasElegir(Trabajador.mesasElegir);
+
+
 }
 public static void visualizarSueldo() {
 	Scanner inp = new Scanner(System.in);
@@ -217,6 +228,9 @@ public static void visualizarSueldo() {
 	else {
 		System.out.println("Lo sentimos, no encontramos ningún trabajador con los datos introducidos");
 		}
+
+		Serializar.serializarMesasElegir(Trabajador.mesasElegir);
+		Serializar.serializarTrabajadoresActivos(Trabajador.trabajadoresActivos);
 }
 
 	

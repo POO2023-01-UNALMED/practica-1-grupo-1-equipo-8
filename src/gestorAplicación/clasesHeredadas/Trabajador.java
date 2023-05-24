@@ -1,14 +1,14 @@
 package gestorAplicación.clasesHeredadas;
 
-import java.io.Serializable;
+
 import java.util.ArrayList;
 import gestorAplicación.clasesPrincipales.*;
 
 public class Trabajador extends Persona {
     private String horario;
     private Reserva atenderMesa;
-    private static ArrayList<Trabajador> trabajadoresActivos = new ArrayList<Trabajador>();
-    private static ArrayList<Reserva> mesasElegir = new ArrayList<Reserva>();
+    public static ArrayList<Trabajador> trabajadoresActivos = new ArrayList<Trabajador>();
+    public static ArrayList<Reserva> mesasElegir = new ArrayList<Reserva>();
     private int sueldo;
 
     public Trabajador(String nombre, int id, String horario){
