@@ -76,6 +76,9 @@ public class Reserva implements Serializable {
         }
 		return Isede;
 	}
-	
+	public void cambiarParametros(int hora, Mesa mesa){
+		this.hora = hora;
+		this.mesa = mesa;
+	}
 
 }

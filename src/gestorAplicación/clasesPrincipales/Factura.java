@@ -69,10 +69,12 @@ public class Factura implements Serializable {
 		return facturaHecha;
     }
 
-	public static void buscarFactura(ArrayList<Factura> facturas,String id){
+	public static Factura buscarFactura(ArrayList<Factura> facturas,String id){
         for (Factura f : facturas){
-			System.out.println(f.getReserva().getIdR().trim());
-			System.out.println(f.getReserva().getIdR().trim() == id);
+			if (f.getReserva().getIdR().trim().equals(id)){
+				return f;
 			}
 		}
+		return null;
+    }
 }

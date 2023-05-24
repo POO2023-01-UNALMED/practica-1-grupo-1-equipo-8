@@ -289,101 +289,67 @@ public static void hacerReserva() {
 	Serializar.serializarFacturasPagas(Pago.facturasPagas);
 	Serializar.serializarFacturasPendientes(Pago.facturasPendientes);
 	inp.close();
-	System.out.println(Pago.getFacturasPendientes());
 }
 
 //REPROGRAMAR
-public static void hacerReprogramacion() {
+public static void hacerReprogramacion(){
 	Scanner inp = new Scanner(System.in);
 	System.out.println("Ingrese el ID de su reserva:");
 	String id = inp.nextLine();
-	Factura facturaCliente = null;
+
+	Factura facturaNow = Factura.buscarFactura(Pago.getFacturasPagas(), id);
+	if (facturaNow == null){
+		System.out.println("Lo sentimos, pero no se puede reprogramar una factura ya pagada");
+	} 
+	facturaNow = Factura.buscarFactura(Pago.getFacturasPendientes(), id);
+	if (facturaNow == null){
+		System.out.println("Lo sentimos, no hemos encontrado ninguna factura con la ID proporcionada");
+	} else {
+		System.out.println("Su factura ha sido encontrada");
+		System.out.println("Escoja la sede en la que quiera reservar");
+
+		System.out.println("1. Bello");
+		System.out.println("2. Envigado");
+		System.out.println("3. San Javier");
 	
-	ArrayList<Factura> list = Pago.getFacturasPendientes();
-	boolean encontrado = false;
-	for (Factura buscarFactura : list) {
-				
-		if(buscarFactura.getIDReserva() == id) {
-			facturaCliente = buscarFactura;
-			encontrado = true;
-			System.out.println("Escoja la sede en la que quiera reprogramar su reserva:");
-			System.out.println("1. Bello");
-			System.out.println("2. Envigado");
-			System.out.println("3. San Javier");
-			int sedeR = inp.nextInt();
-			String Isede = "";
-			
-			if (sedeR == 1) {
-				Isede = "B";
-			} else if (sedeR == 2) {
-				Isede = "E";
-			} else if (sedeR == 3) {
-				Isede = "SJ";
-			}
-			System.out.println("Ingrese la nueva cantidad de personas[2-4]:");
-			int cantidadR = inp.nextInt();
-			ArrayList<Mesa> mesasRequeridas = Mesa.buscarMesas(Isede, cantidadR);
-			
-			System.out.println("Ingrese la hora en la que quiere reprogramar su reserva [6pm-12pm].(escriba solo el numero): ");
-			int horaR = inp.nextInt();
-			
-			for (Mesa m : mesasRequeridas) {
-				m.setDisponibilidad(Reserva.validarHorarioDisponible(horaR, m));
+		int sede = inp.nextInt()-1;
+		String Isede = Reserva.devolverSede(sede);
+		System.out.println("Ingrese la nueva cantidad de personas[2-4]:");
+		int cantidadR = inp.nextInt();
+		ArrayList<Mesa> mesasRequeridas = Mesa.buscarMesas(Isede, cantidadR);
+
+		System.out.println("Ingrese la hora en la que quiere reservar [6pm-12pm]");
+		int hora = inp.nextInt();
+
+		ArrayList<Mesa> mesasF = Reserva.validarHorarioDisponible(mesasRequeridas, hora);
+	
+		if (mesasF.size() == 0 ){
+			System.out.println("Lo sentimos, pero no hay disponibilidad de mesas con estas caracteristicas");
+		} else {
+			System.out.println("Escoja una de las mesas que se mostrarán a continuación");
+			int c = 1;
+			for (Mesa mesa : mesasF){
+				if (mesa.getDisponibilidad()) {
+				System.out.println(c + ". "+ mesa.toString());
+				c++;
 				}
-			ArrayList<Mesa> mesasF = new ArrayList<Mesa>();
-			for (Mesa m : mesasRequeridas) {
-				if (m.getDisponibilidad()) {
-					mesasF.add(m);
+			}
 		}
-	}
-			if (mesasF.size() == 0 ){
-				System.out.println("Lo sentimos, pero no hay disponibilidad de mesas con estas caracteristicas");
-			} else {
-				System.out.println("Escoga una de las mesas disponibles:");
-				int c = 1;
-				for (Mesa mesa : mesasF){
-					if (mesa.getDisponibilidad()) {
-					System.out.println(c + ". "+ mesa.toString());
-					c++;
-					}
-				}
-			}
-			
-			int mesaElegidaR = inp.nextInt();
-			Mesa mesaEl = mesasF.get(mesaElegidaR-1);
+		int mesaElegidaR = inp.nextInt();
+		Mesa mesaEl = mesasF.get(mesaElegidaR-1);
 			System.out.println("¿Está seguro/a de reprogramar su reserva y cambiar sus parámetros?");
 			System.out.println("1. Si");
 			System.out.println("2. No");
 			int confirmacion = inp.nextInt();
 			if(confirmacion == 1) {
-			System.out.println("Su reserva ha sido actualizada, lo esperamos en una nueva ocasión.");       
-		}
-			else {
-				System.out.println("Sentimos que no desee finalizar su reprogamacion de reserva, lo esperamos en una nueva ocasión.");
-			}
-			break;
+			facturaNow.getReserva().cambiarParametros(hora, mesaEl);
+			System.out.println("Su reserva ha sido actualizada, lo esperamos en una nueva ocasión.");      
 		}
 	}
-	if(encontrado == false) {		    	
-		ArrayList<Factura> lista1 = Pago.getFacturasPagas();
-		for (Factura buscarFactura : lista1) {
-					
-			if(buscarFactura.getIDReserva() == id) {
-				encontrado = true;
-				System.out.println("La reserva ya fue pagada");
-				break;  
-				}
-			}
-		if(encontrado == false) {
-			System.out.println("No se ha generado ninguna factura con el ID introducido");
-			}
-		}
+	System.out.println(Pago.getFacturasPendientes());
 	
-	Serializar.serializarReservas(Reserva.reservasHechas);
-	Serializar.serializarMesas(Mesa.mesasDisponibles);
-	Serializar.serializarFacturasPagas(Pago.facturasPagas);
-	Serializar.serializarFacturasPendientes(Pago.facturasPendientes);
 }
+
 	//PAGO
 public static void procederPago(){
 	Scanner inp = new Scanner(System.in);
@@ -398,11 +364,19 @@ public static void procederPago(){
 		Scanner inp2 = new Scanner(System.in);
 		System.out.println("Ingrese la ID de su reserva");
 		String id = inp2.nextLine();
-		System.out.println(Pago.getFacturasPendientes());
-		Factura.buscarFactura(Pago.getFacturasPendientes(), id);
-		Factura facturaNow = null;
-		System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaNow);
-		if(facturaNow != null) {
+		Factura facturaNow = Factura.buscarFactura(Pago.getFacturasPagas(), id);
+		if (facturaNow != null){
+			System.out.println("La factura " +facturaNow.getIDReserva()+ " ya ha sido pagada");
+			System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaNow);
+			break;
+		}
+
+		facturaNow = Factura.buscarFactura(Pago.getFacturasPendientes(), id);
+
+		if(facturaNow == null){
+			System.out.println("No se ha encontrado ninguna factura con la ID: " +id);
+		} else {
+			System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaNow);
 			System.out.println("¿Desea cancelar el monto de la factura?"); 			
 			System.out.println("1. Sí");
 			System.out.println("2. No");
@@ -426,9 +400,48 @@ public static void procederPago(){
 			}
 			break;
 		}
+		case 2: //REEMBOLSO
+		Scanner inp3 = new Scanner(System.in);
+		System.out.println("Ingrese la ID de su reserva");
+		String id2 = inp3.nextLine();
+		Factura facturaNow2 = Factura.buscarFactura(Pago.getFacturasPendientes(), id2);
+		if (facturaNow2 != null){
+			System.out.println("La factura " +facturaNow2.getIDReserva()+ " no ha sido pagada, por tanto, no se puede reembolsar");
+			System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaNow2);
+			break;
+		} 
+		facturaNow2 = Factura.buscarFactura(Pago.getFacturasPagas(), id2);
+		if (facturaNow2 == null){
+			System.out.println("No se ha encontrado ninguna factura con la ID: " +id2);
+		} else {
+			Pago.removePaga(facturaNow2);
+			System.out.println("La factura " + id2 + " ha sido reembolsada a su tarjeta usada para el pago");
+	            		    
+	            		    System.out.println("Para finalizar cuentanos cuál fue el motivo de su reembolso");
+	    		    		System.out.println("1. Problemas con el horario");
+	    		    		System.out.println("2. Problemas con nuestro servicio");
+	    		    		System.out.println("3. Dificultades con el precio y/o medio de pago");
+	    		    		System.out.println("4. Otro (especificar)");
+	    		    		int opc2 = inp.nextInt();
+	    		    		
+	    		    		switch(opc2) {
+	    		    		case 1, 2, 3:
+	    		    			System.out.println("Lamentamos las molestias causadas, intentaremos solucionar su problema lo más rápido posible");
+	    		    		break;
+	    		    		
+	    		    		case 4:
+	    		    			System.out.println("Dinos cual fue su problema");
+	    		    			String problema = inp.next();
+	    		    			System.out.println("Gracias por notificarnos, haremos lo posible para solucionar su problema lo más rápido posible");
+	    		    		}
+	    		    		
+	     			        break;        		
+		}
+
 	}
 	Serializar.serializarFacturasPagas(Pago.facturasPagas);
 	Serializar.serializarFacturasPendientes(Pago.facturasPendientes);
+
 }
 
 	

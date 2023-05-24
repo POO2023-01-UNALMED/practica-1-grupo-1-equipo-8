@@ -116,30 +116,35 @@ public class Deserializar {
 
     }
 
-    public static ArrayList<Factura> deserializarFacurasPendientes(){
-        try{
-            FileInputStream file = new FileInputStream(new File(archivo.getAbsolutePath()+"/facturasPendientes.txt"));
+    public static ArrayList<Factura> deserializarFacurasPendientes() {
+    String rutaArchivo = archivo.getAbsolutePath() + "/facturasPendientes.txt";
+    File archivoFacturas = new File(rutaArchivo);
+
+    if (archivoFacturas.exists()) {
+        try {
+            FileInputStream file = new FileInputStream(archivoFacturas);
             ObjectInputStream o = new ObjectInputStream(file);
 
             ArrayList<Factura> facturasPendientes = (ArrayList<Factura>) o.readObject();
 
             file.close();
             o.close();
+
             return facturasPendientes;
-        }
-        
-        catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<Factura>();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ArrayList<Factura>();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
             return new ArrayList<Factura>();
         }
-
-        catch(IOException e){
-            return new ArrayList<Factura>();
-        }
-
-        catch(ClassNotFoundException e){
-            return new ArrayList<Factura>();
-        }
-
+    } else {
+        System.out.println("El archivo de facturas pendientes no existe.");
+        return new ArrayList<Factura>();
     }
+}
     
 }
