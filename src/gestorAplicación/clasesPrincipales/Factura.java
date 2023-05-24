@@ -52,9 +52,9 @@ public class Factura implements Serializable {
 	    return id;
 	}
 
-    public String toString() {
-    	String facturaHecha =  ("-------------\nRestaurante Un \nId de la reserva: " + id + "\nCliente: " + reserva.getCliente() + 
-    			"\nSede: " + sede + "\nMesa #" + mesa.getId() +  "\nHora: " + reserva.getHora());
+	public String toString() {
+    	String facturaHecha =  ("-------------\nRestaurante Un \nId de la reserva: " + id + "\nCliente: " + cliente.getNombre() + "\nIdentificación: " + cliente.getId()
+    			+ "\nSede: " + sede + "\nMesa #" + mesa.getId() +  "\nHora: " + reserva.getHora());
 				
     	if(cliente.getMembresia() != null) {
     		this.facturaHecha = facturaHecha + "\nComo eres miembro se te aplicará un descuento del 20% \nPrecio: 80.000$";
