@@ -2,7 +2,6 @@ package gestorAplicación.clasesPrincipales;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import gestorAplicación.clasesHeredadas.Cliente;
 
 public class Factura implements Serializable {
@@ -26,42 +25,37 @@ public class Factura implements Serializable {
 		Pago.addFacturasPendientes(this);
     }
     
-
+    //Métodos get
     public Reserva getReserva() {
     	return reserva;
     }
-    public void setReserva(Reserva reserva) {
-    	this.reserva = reserva;
-    }
-
-	public Cliente getClienteFactura(){
+    public Cliente getClienteFactura(){
 		return reserva.getCliente();
 	}
-
 	public Mesa getMesa() {
     	return mesa;
     }
-	
 	public int getPrecio() {
 		return precio;
 	}
+	public String getSede() {
+		return sede;
+	}    
+	public Membresia getFacturaMiembro() {
+		return membresia;
+	}
+	public String getIDReserva() {
+	    return id;
+	}
+	
+    //Métodos set
+    public void setReserva(Reserva reserva) {
+    	this.reserva = reserva;
+    }
 	public void setPrecio(int precio) {
 		this.precio = precio;
 	}
 	
-	public String getSede() {
-		return sede;
-	}    
-
-	public Membresia getFacturaMiembro() {
-		return membresia;
-	}
-	
-	public String getIDReserva() {
-	    return id;
-	}
-
-
 	private boolean clienteEsMiembro(Cliente cliente) {
 		Iterator<Cliente> iterator = Cliente.getMiembrosActuales().iterator();
 		while (iterator.hasNext()) {
@@ -90,7 +84,6 @@ public class Factura implements Serializable {
 		facturaHecha += "\n-------------";
 		return facturaHecha;
 	}
-
 
 	public static Factura buscarFactura(ArrayList<Factura> facturas,String id){
         for (Factura f : facturas){

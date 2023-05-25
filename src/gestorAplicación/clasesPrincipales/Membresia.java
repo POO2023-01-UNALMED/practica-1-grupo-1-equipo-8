@@ -1,11 +1,9 @@
 package gestorAplicación.clasesPrincipales;
-
 import java.io.Serializable;
 import java.util.Iterator;
-
 import gestorAplicación.clasesHeredadas.Cliente;
-
 public class Membresia implements Serializable {
+	
     // Implementación de características de POO
     // Uso de constante
     private final String tipo;
@@ -16,16 +14,15 @@ public class Membresia implements Serializable {
         this.activa = activa;
     }
 
-
+    //Métodos get
     public String getTipo() {
         return tipo;
     }
-
     public boolean esActiva() {
         return activa;
     }
-
     
+    //Método set
     public void setActiva(boolean activa) {
         this.activa = activa;
     }

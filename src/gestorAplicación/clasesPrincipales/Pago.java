@@ -14,24 +14,13 @@ public class Pago implements Serializable {
     	this.medioPago = medioPago;
         registroPagos.add(this);  
     }
-    public static void addFacturasPagas(Factura factura) {
-    	facturasPagas.add(factura);
-    }
+    
+    //Métodos get
     public static ArrayList<Factura> getFacturasPagas() {
     	return facturasPagas;
     }
-    public static void removePaga(Factura factura) {
-    	facturasPagas.remove(factura);
-    }
-   
-    public static void addFacturasPendientes(Factura factura) {
-    	facturasPendientes.add(factura);
-    }
     public static ArrayList<Factura> getFacturasPendientes() {
     	return facturasPendientes;
-    }
-    public static void removePendiente(Factura factura) {
-    	facturasPendientes.remove(factura);
     }
     public Factura getFactura() {
     	return factura;
@@ -42,6 +31,23 @@ public class Pago implements Serializable {
     public static ArrayList<Pago> getRegistroPagos(){
     	return registroPagos;
     }
+    
+    public static void addFacturasPagas(Factura factura) {
+    	facturasPagas.add(factura);
+    }
+
+    public static void removePaga(Factura factura) {
+    	facturasPagas.remove(factura);
+    }
+   
+    public static void addFacturasPendientes(Factura factura) {
+    	facturasPendientes.add(factura);
+    }
+
+    public static void removePendiente(Factura factura) {
+    	facturasPendientes.remove(factura);
+    }
+    
     public static void removePagos(Pago pago) {
     	registroPagos.remove(pago);
     }

@@ -1,7 +1,6 @@
 package gestorAplicación.clasesPrincipales;
 import java.io.Serializable;
 import java.util.ArrayList;
-
 import gestorAplicación.clasesHeredadas.Cliente;
 import gestorAplicación.clasesHeredadas.Trabajador;
 
@@ -12,7 +11,6 @@ public class Reserva implements Serializable {
     private Mesa mesa;
 	public static ArrayList<Reserva> reservasHechas= new ArrayList<Reserva>();
 
-
 	public Reserva(int hora, Cliente cliente, Mesa mesa) {
 		this.hora = hora;
 		this.cliente = cliente;
@@ -22,30 +20,35 @@ public class Reserva implements Serializable {
 		Trabajador.addMesasElegir(this);
 	}
 	
-
-	public String toString(){
-		return "Cliente: " + this.cliente + ", mesa: " + this.mesa + ", hora: " + this.hora + ", reservaID: " + this.IdR;
-	}
+	//Métodos get
 	public int getHora() {
 		return hora;
-	}
-	public void setHora(int hora) {
-		this.hora = hora;
 	}
 	public Cliente getCliente() {
 		return cliente;
 	}
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
 	public Mesa getMesa() {
 		return mesa;
+	}
+	public String getIdR(){
+		return IdR;
+	}
+	public static ArrayList<Reserva> getReservasHechas(){
+		return reservasHechas;
+	}
+	
+	//Métodos set
+	public void setHora(int hora) {
+		this.hora = hora;
+	}
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 	public void setMesa(Mesa mesa) {
 		this.mesa = mesa;
 	}
-	public String getIdR(){
-		return IdR;
+	public String toString(){
+		return "Cliente: " + this.cliente + ", mesa: " + this.mesa + ", hora: " + this.hora + ", reservaID: " + this.IdR;
 	}
 
 	public static ArrayList<Mesa> validarHorarioDisponible(ArrayList<Mesa> mesas, int hora) {
@@ -61,10 +64,6 @@ public class Reserva implements Serializable {
 		return mesas;
 	}
 		
-	public static ArrayList<Reserva> getReservasHechas(){
-		return reservasHechas;
-	}
-
 	public static String devolverSede(int sede){
 		String Isede = "";
 		if (Sedes.B.ordinal() == sede) {
@@ -76,6 +75,7 @@ public class Reserva implements Serializable {
         }
 		return Isede;
 	}
+	
 	public void cambiarParametros(int hora, Mesa mesa){
 		this.hora = hora;
 		this.mesa = mesa;
@@ -90,5 +90,4 @@ public class Reserva implements Serializable {
 		}
 		return null;
 	}
-
 }
