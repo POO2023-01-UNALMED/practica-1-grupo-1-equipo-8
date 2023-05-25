@@ -64,14 +64,13 @@ public class Trabajador extends Persona {
     }
     
     @Override
-     public void accion(Factura facturaNow, int sueldo){
+     public boolean accion(Factura facturaNow, int sueldo){
         Reserva reserva = facturaNow.getReserva();
         addMesasAtendidas(reserva);
-        System.out.println("La cantidad de reservas atendidas por el trabajador: " + getNombre());
-        System.out.println("Es un total de: " + mesasAtendidas.size());
+
         
         int sueldoFactura = facturaNow.getPrecio();
         this.sueldo += sueldoFactura/2;
-        System.out.println("Su sueldo actual es de: " + getSueldo());
+        return true;
      }
 }
