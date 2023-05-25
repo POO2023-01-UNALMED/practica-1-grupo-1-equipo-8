@@ -59,15 +59,15 @@ public class Cliente extends Persona {
     }
 
     @Override//Ligadura dinámica
-    public String accion(Factura facturaNow, int saldo){
+    public boolean accion(Factura facturaNow, int saldo){
         if(saldo >= facturaNow.getPrecio()) {
             Pago.removePendiente(facturaNow);
             Pago.addFacturasPagas(facturaNow);
             Pago pagado = new Pago(facturaNow, "línea");
-            return "Su factura ha sido pagada";
+            return true;
         }
         else {
-            return "Su saldo no es suficiente, aún no podremos confirmar su reserva";
+            return false;
         }
     }
 

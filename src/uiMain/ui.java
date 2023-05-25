@@ -453,7 +453,11 @@ public static void procederPago(){
 					int saldo = inp.nextInt();
 					Cliente cliente = facturaNow.getClienteFactura();
 					//Revisa si el saldo es suficiente y cambia la factura a facturasPagas, se crea un objeto de Pago en linea
-						System.out.println(cliente.accion(facturaNow, saldo));
+						if (cliente.accion(facturaNow, saldo)){
+							System.out.println("Su reserva ha sido pagada");
+						} else {
+							System.out.println("Su saldo no es suficiente, aún no podremos confirmar su reserva");
+						}
 				}
 				else{
 					//cambia la factura a facturasPagas, se crea un objeto de Pago en efectivo
