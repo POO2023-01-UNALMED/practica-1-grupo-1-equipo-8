@@ -6,6 +6,8 @@ import java.util.Iterator;
 import gestorAplicación.clasesHeredadas.Cliente;
 
 public class Membresia implements Serializable {
+    // Implementación de características de POO
+    // Uso de constante
     private final String tipo;
     private boolean activa;
 

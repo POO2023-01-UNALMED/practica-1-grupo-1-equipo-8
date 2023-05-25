@@ -79,6 +79,16 @@ public class Reserva implements Serializable {
 	public void cambiarParametros(int hora, Mesa mesa){
 		this.hora = hora;
 		this.mesa = mesa;
+		this.IdR = hora+"-"+mesa.getId();
+	}
+
+	public static Reserva buscarReserva(String id){
+		for (Reserva r : reservasHechas){
+			if (r.getIdR().trim().equals(id)){
+				return r;
+			}
+		}
+		return null;
 	}
 
 }

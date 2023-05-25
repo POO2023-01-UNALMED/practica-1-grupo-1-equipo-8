@@ -4,12 +4,19 @@ package gestorAplicación.clasesHeredadas;
 import java.util.ArrayList;
 import gestorAplicación.clasesPrincipales.*;
 
+// Implementación de características de POO
+// Herencia
+
 public class Trabajador extends Persona {
     private String horario;
     private Reserva atenderMesa;
+    private ArrayList<Mesa> mesasAtendidas = new ArrayList<Mesa>();
     public static ArrayList<Trabajador> trabajadoresActivos = new ArrayList<Trabajador>();
     public static ArrayList<Reserva> mesasElegir = new ArrayList<Reserva>();
     private int sueldo;
+
+// Implementación de características de POO
+// Sobrecarga de constructores
 
     public Trabajador(String nombre, int id, String horario){
         super(nombre, id);
@@ -48,8 +55,18 @@ public class Trabajador extends Persona {
     public static void removeMesasElegir(Reserva reserva) {
         mesasElegir.remove(reserva);
         }
+    public String toString() {
+        return this.getNombre() + this.getId();
+    }
     
     public int getSueldo() {
         return sueldo;
         }
+
+    public void añadirServicio(Reserva buscarR){
+        this.setAtenderMesa(buscarR);
+		Trabajador.addTrabajadoresActivos(this);
+		Trabajador.removeMesasElegir(buscarR);
+        this.mesasAtendidas.add(buscarR.getMesa());
+    }
 }
