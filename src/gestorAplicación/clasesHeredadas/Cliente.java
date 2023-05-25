@@ -63,6 +63,7 @@ public class Cliente extends Persona {
         if(saldo >= facturaNow.getPrecio()) {
             Pago.removePendiente(facturaNow);
             Pago.addFacturasPagas(facturaNow);
+            Trabajador.removeMesasElegir(facturaNow.getReserva());
             Pago pagado = new Pago(facturaNow, "línea");
             return true;
         }
@@ -75,6 +76,7 @@ public class Cliente extends Persona {
         System.out.println("Haga su pago en caja al llegar a la sede " + facturaNow.getSede());
 		Pago.removePendiente(facturaNow);
 		Pago.addFacturasPagas(facturaNow);
+        Trabajador.removeMesasElegir(facturaNow.getReserva());
 	    Pago pagado = new Pago(facturaNow, "Efectivo");
     }
 }

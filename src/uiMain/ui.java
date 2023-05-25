@@ -338,7 +338,6 @@ public static void hacerReprogramacion(){
 	String id = inp.nextLine();
 
 	Factura facturaNow = Factura.buscarFactura(Pago.getFacturasPagas(), id);
-	inp.close();
 	//Factura ya pagada
 	if (facturaNow != null){
 		System.out.println("Lo sentimos, pero no se puede reprogramar una factura ya pagada");
@@ -405,6 +404,7 @@ public static void hacerReprogramacion(){
 	Serializar.serializarFacturasPagas(Pago.facturasPagas);
 	Serializar.serializarFacturasPendientes(Pago.facturasPendientes);
 	Serializar.serializarMesasElegir(Trabajador.mesasElegir);
+	inp.close();
 }
 
 // Funcionalidades implementadas
