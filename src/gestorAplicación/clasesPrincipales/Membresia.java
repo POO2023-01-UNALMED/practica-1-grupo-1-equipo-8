@@ -12,9 +12,10 @@ public class Membresia implements Serializable {
     private boolean activa;
 
     public Membresia(String tipo, boolean activa) {
-        this.tipo = tipo;
+        this.tipo = "Gold";
         this.activa = activa;
     }
+
 
     public String getTipo() {
         return tipo;
@@ -24,6 +25,7 @@ public class Membresia implements Serializable {
         return activa;
     }
 
+    
     public void setActiva(boolean activa) {
         this.activa = activa;
     }
@@ -51,7 +53,7 @@ public class Membresia implements Serializable {
         }
         Cliente miembro = new Cliente(nombre, id);
         Membresia membresia = new Membresia("Gold", true);
-        miembro.setMembresia(membresia);
+        membresia.setActiva(true);
         Cliente.getMiembrosActuales().add(miembro);
         System.out.println("El cliente " + nombre + " con ID " + id + " hace parte ahora de la lista de miembros.");
     }

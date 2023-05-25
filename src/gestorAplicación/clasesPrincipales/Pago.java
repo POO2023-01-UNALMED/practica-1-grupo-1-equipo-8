@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Pago implements Serializable {
     private Factura factura;
-    private Mesa mesa;
     private String medioPago;
     public static ArrayList<Factura> facturasPagas = new ArrayList<Factura>();
     public static ArrayList<Factura> facturasPendientes = new ArrayList<Factura>();
@@ -13,7 +12,6 @@ public class Pago implements Serializable {
     public Pago(Factura factura, String medioPago) {
     	this.factura = factura;
     	this.medioPago = medioPago;
-        this.mesa = factura.getMesa();
         registroPagos.add(this);  
     }
     public static void addFacturasPagas(Factura factura) {

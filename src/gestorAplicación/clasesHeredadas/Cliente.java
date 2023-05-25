@@ -23,7 +23,7 @@ public class Cliente extends Persona {
 // Implementación de características de POO
 // Manejo de this
 
-        this.membresia = null;
+        this.membresia = getMembresia();
     }
 
     public Cliente(int id) {
@@ -32,17 +32,24 @@ public class Cliente extends Persona {
 // Implementación de características de POO
 // Manejo de this
         
-        this.membresia = null;
+        this.membresia = getMembresia();
     }
 
     public Membresia getMembresia() {
         return membresia;
     }
 
+    public String getTipodeMiembro(){
+        return membresia.getTipo();
+    }
+    
     public void setMembresia(Membresia membresia) {
         this.membresia = membresia;
     }
 
+    public boolean getActividad(){
+        return membresia.esActiva();
+    }
     public String getNombre() {
         return super.getNombre();
     }
@@ -58,7 +65,9 @@ public class Cliente extends Persona {
     public static ArrayList<Cliente> getMiembrosActuales() {
         return miembrosActuales;
     }
-    public static void pagoEnLinea(Factura facturaNow, int saldo){
+
+    @Override
+    public void accion(Factura facturaNow, int saldo){
         if(saldo >= facturaNow.getPrecio()) {
             System.out.println("Su pago ha sido registrado");
             Pago.removePendiente(facturaNow);
@@ -70,10 +79,11 @@ public class Cliente extends Persona {
         }
     }
 
-    public static void PagoEfectivo(Factura facturaNow){
+    public static void pagoEnEfectivo(Factura facturaNow){
         System.out.println("Haga su pago en caja al llegar a la sede " + facturaNow.getSede());
 		Pago.removePendiente(facturaNow);
 		Pago.addFacturasPagas(facturaNow);
 	    Pago pagado = new Pago(facturaNow, "Efectivo");
     }
+
 }

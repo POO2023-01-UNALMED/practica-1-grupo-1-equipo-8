@@ -143,7 +143,7 @@ public class Deserializar {
             return new ArrayList<Factura>();
         }
     } else {
-        System.out.println("El archivo de facturas pendientes no existe.");
+        System.out.println("");
         return new ArrayList<Factura>();
     }
 }
@@ -174,7 +174,7 @@ public static ArrayList<Trabajador> deserializarTrabajadoresActivos() {
             return new ArrayList<Trabajador>();
         }
     } else {
-        System.out.println("El archivo de facturas pendientes no existe.");
+        System.out.println("");
         return new ArrayList<Trabajador>();
     }
 }
@@ -206,7 +206,7 @@ public static ArrayList<Reserva> deserializarMesasElegir() {
             return new ArrayList<Reserva>();
         }
     } else {
-        System.out.println("El archivo de facturas pendientes no existe.");
+        System.out.println("");
         return new ArrayList<Reserva>();
     }
 }

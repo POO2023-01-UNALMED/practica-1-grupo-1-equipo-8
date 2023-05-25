@@ -401,10 +401,11 @@ public static void procederPago(){
 				if (opc1 == 1){
 					System.out.println("Ingrese el saldo de su tarjeta");
 					int saldo = inp.nextInt();
-					Cliente.pagoEnLinea(facturaNow, saldo);
+					Cliente cliente = facturaNow.getClienteFactura();
+					cliente.accion(facturaNow, saldo);
 				}
 				else{
-					Cliente.PagoEfectivo(facturaNow);
+					Cliente.pagoEnEfectivo(facturaNow);
 				}
 			}	else	{
 				System.out.println("Ya que no fue posible realizar el pago de la reserva #" + facturaNow.getIDReserva() + " aún no podremos confirmar su reserva");

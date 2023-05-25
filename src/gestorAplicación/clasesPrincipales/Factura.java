@@ -1,17 +1,20 @@
 package gestorAplicación.clasesPrincipales;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import gestorAplicación.clasesHeredadas.Cliente;
 
 public class Factura implements Serializable {
-    private Reserva reserva;
-	private String facturaHecha;
+	private Reserva reserva;
+    private String facturaHecha;
     private Cliente cliente;
 	private Mesa mesa;
 	private int precio;
 	private String sede;
 	private String id;
+	private Membresia membresia;
+
 	
     public Factura(Reserva reserva) {
     	this.reserva = reserva;
@@ -19,15 +22,22 @@ public class Factura implements Serializable {
 		this.mesa = reserva.getMesa();
 		this.sede = mesa.getSede();
 		this.id = reserva.getIdR();
+		this.membresia = cliente.getMembresia();
+		this.precio = 100000;
 		Pago.addFacturasPendientes(this);
     }
     
+
     public Reserva getReserva() {
     	return reserva;
     }
     public void setReserva(Reserva reserva) {
     	this.reserva = reserva;
     }
+
+	public Cliente getClienteFactura(){
+		return reserva.getCliente();
+	}
 
 	public Mesa getMesa() {
     	return mesa;
@@ -47,27 +57,45 @@ public class Factura implements Serializable {
 	public String getSede() {
 		return sede;
 	}    
+
+	public Membresia getFacturaMiembro() {
+		return membresia;
+	}
 	
 	public String getIDReserva() {
 	    return id;
 	}
 
-	public String toString() {
-    	String facturaHecha =  ("-------------\nRestaurante Un \nId de la reserva: " + id + "\nCliente: " + cliente.getNombre() + "\nIdentificación: " + cliente.getId()
-    			+ "\nSede: " + sede + "\nMesa #" + mesa.getId() +  "\nHora: " + reserva.getHora());
-				
-    	if(cliente.getMembresia() != null) {
-    		this.facturaHecha = facturaHecha + "\nComo eres miembro se te aplicará un descuento del 20% \nPrecio: 80.000$";
-    		setPrecio(80000);
-    	}
-    	else {
-    		this.facturaHecha = facturaHecha + "\nPrecio: 100.000$";
-    		setPrecio(100000);
-    	}
-		facturaHecha = facturaHecha + "\n-------------";
 
+	private boolean clienteEsMiembro(Cliente cliente) {
+		Iterator<Cliente> iterator = Cliente.getMiembrosActuales().iterator();
+		while (iterator.hasNext()) {
+			Cliente clienteActual = iterator.next();
+			if (clienteActual.getNombre().equals(cliente.getNombre()) && clienteActual.getId() == cliente.getId()) {
+				return true; 
+			}
+		}
+		return false; 
+		
+	}
+	
+	public String toString() {
+		String facturaHecha = "-------------\nRestaurante Un\nId de la reserva: " + id + "\nCliente: " + cliente.getNombre() + "\nIdentificación: " + cliente.getId()
+				+ "\nSede: " + sede + "\nMesa #" + mesa.getId() + "\nHora: " + reserva.getHora();
+	
+		if (clienteEsMiembro(cliente)) {
+			facturaHecha += "\nEl cliente es miembro Gold";
+			double precioConDescuento = precio * 0.8; 
+			facturaHecha += "\nDescuento del 20% aplicado\nPrecio: " + precioConDescuento + "$";
+			}  else {
+			facturaHecha += "\nEl cliente no es miembro";
+			facturaHecha += "\nPrecio: " + precio + "$";
+		}
+		
+		facturaHecha += "\n-------------";
 		return facturaHecha;
-    }
+	}
+
 
 	public static Factura buscarFactura(ArrayList<Factura> facturas,String id){
         for (Factura f : facturas){
