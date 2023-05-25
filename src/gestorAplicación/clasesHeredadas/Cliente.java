@@ -22,7 +22,7 @@ public class Cliente extends Persona {
     }
     
     public Cliente(int id) {
-        super("N/N", id);
+        super("N/N", id); 
 
 // Implementación de características de POO
 // Manejo de this
@@ -58,16 +58,16 @@ public class Cliente extends Persona {
         return this.getNombre() + " " + this.getId();
     }
 
-    @Override
-    public void accion(Factura facturaNow, int saldo){
+    @Override//Ligadura dinámica
+    public String accion(Factura facturaNow, int saldo){
         if(saldo >= facturaNow.getPrecio()) {
-            System.out.println("Su pago ha sido registrado");
             Pago.removePendiente(facturaNow);
             Pago.addFacturasPagas(facturaNow);
             Pago pagado = new Pago(facturaNow, "línea");
+            return "Su factura ha sido pagada";
         }
         else {
-            System.out.println("Su saldo no es suficiente, aún no podremos confirmar su reserva");
+            return "Su saldo no es suficiente, aún no podremos confirmar su reserva";
         }
     }
 

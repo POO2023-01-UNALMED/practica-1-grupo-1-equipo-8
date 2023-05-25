@@ -20,7 +20,7 @@ public abstract class Persona implements Serializable{
     }
     
     //Método abstracto
-    public abstract void accion(Factura facturaNow, int saldo);
+    public abstract boolean accion(Factura facturaNow, int saldo);
     
     public static Trabajador buscarTrabajador(int id){
         for (Trabajador t : Trabajador.trabajadoresActivos){

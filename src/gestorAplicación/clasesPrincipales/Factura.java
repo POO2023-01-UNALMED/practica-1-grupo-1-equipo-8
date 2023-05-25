@@ -2,10 +2,12 @@ package gestorAplicación.clasesPrincipales;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import gestorAplicación.clasesHeredadas.Cliente;
 
 public class Factura implements Serializable {
 	private Reserva reserva;
+    private String facturaHecha;
     private Cliente cliente;
 	private Mesa mesa;
 	private int precio;
@@ -25,37 +27,46 @@ public class Factura implements Serializable {
 		Pago.addFacturasPendientes(this);
     }
     
-    //Métodos get
+
     public Reserva getReserva() {
     	return reserva;
     }
-    public Cliente getClienteFactura(){
-		return reserva.getCliente();
-	}
-	public Mesa getMesa() {
-    	return mesa;
-    }
-	public int getPrecio() {
-		return precio;
-	}
-	public String getSede() {
-		return sede;
-	}    
-	public Membresia getFacturaMiembro() {
-		return membresia;
-	}
-	public String getIDReserva() {
-	    return id;
-	}
-	
-    //Métodos set
     public void setReserva(Reserva reserva) {
     	this.reserva = reserva;
     }
+
+	public Cliente getClienteFactura(){
+		return reserva.getCliente();
+	}
+
+	public Mesa getMesa() {
+    	return mesa;
+    }
+
+	public String getFacturaHecha() {
+		return facturaHecha;
+		}
+	
+	public int getPrecio() {
+		return precio;
+	}
 	public void setPrecio(int precio) {
 		this.precio = precio;
 	}
 	
+	public String getSede() {
+		return sede;
+	}    
+
+	public Membresia getFacturaMiembro() {
+		return membresia;
+	}
+	
+	public String getIDReserva() {
+	    return id;
+	}
+
+
 	private boolean clienteEsMiembro(Cliente cliente) {
 		Iterator<Cliente> iterator = Cliente.getMiembrosActuales().iterator();
 		while (iterator.hasNext()) {
@@ -68,22 +79,26 @@ public class Factura implements Serializable {
 		
 	}
 	
-	public String toString() {
-		String facturaHecha = "-------------\nRestaurante Un\nId de la reserva: " + id + "\nCliente: " + cliente.getNombre() + "\nIdentificación: " + cliente.getId()
-				+ "\nSede: " + sede + "\nMesa #" + mesa.getId() + "\nHora: " + reserva.getHora();
-	
-		if (clienteEsMiembro(cliente)) {
-			facturaHecha += "\nEl cliente es miembro Gold";
-			double precioConDescuento = precio * 0.8; 
-			facturaHecha += "\nDescuento del 20% aplicado\nPrecio: " + precioConDescuento + "$";
-			}  else {
-			facturaHecha += "\nEl cliente no es miembro";
-			facturaHecha += "\nPrecio: " + precio + "$";
-		}
-		
-		facturaHecha += "\n-------------";
-		return facturaHecha;
-	}
+public String toString() {
+    String facturaHecha = "-------------\nRestaurante Un\nId de la reserva: " + id + "\nCliente: " + cliente.getNombre() + "\nIdentificación: " + cliente.getId()
+            + "\nSede: " + sede + "\nMesa #" + mesa.getId() + "\nHora: " + reserva.getHora();
+
+    if (clienteEsMiembro(cliente)) {
+        facturaHecha += "\nEl cliente es miembro Gold";
+        int precioConDescuento = precio - 20000;
+        facturaHecha += "\nDescuento del 20% aplicado\nPrecio: 80000$";
+        if (precio == 100000) {
+            this.precio = precioConDescuento;
+        }
+    } else {
+        facturaHecha += "\nEl cliente no es miembro";
+        facturaHecha += "\nPrecio: " + precio + "$";
+    }
+
+    facturaHecha += "\n-------------";
+    return facturaHecha;
+}
+
 
 	public static Factura buscarFactura(ArrayList<Factura> facturas,String id){
         for (Factura f : facturas){
