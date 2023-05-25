@@ -67,7 +67,6 @@ public class Trabajador extends Persona {
      public boolean accion(Factura facturaNow, int sueldo){
         Reserva reserva = facturaNow.getReserva();
         addMesasAtendidas(reserva);
-        System.out.println("La cantidad de reservas atendidas por el trabajador: " + getNombre());
 
         
         int sueldoFactura = facturaNow.getPrecio();
