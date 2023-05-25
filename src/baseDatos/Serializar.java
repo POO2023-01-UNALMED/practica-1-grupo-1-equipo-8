@@ -153,5 +153,25 @@ public class Serializar {
 
     }
 
+       public static void serializarMesasAtendidas(ArrayList<Reserva> mesasAtendidas) {
+
+        try {
+            FileOutputStream f = new FileOutputStream(new File(archivo.getAbsolutePath()+"/mesasAtendidas.txt"));
+            ObjectOutputStream o = new ObjectOutputStream(f);
+
+            o.writeObject(mesasAtendidas);
+
+            o.close();
+            f.close();
+        }
+        catch (FileNotFoundException e){
+            System.out.println("No se encuentra el archivo: " + e.getMessage());
+        }
+        catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+
+    }
+
 
 }

@@ -59,12 +59,14 @@ public class Cliente extends Persona {
     }
 
     public String toString() {
-        return this.getNombre() + this.getId();
+        return this.getNombre() + " " + this.getId();
     }
 
     public static ArrayList<Cliente> getMiembrosActuales() {
         return miembrosActuales;
     }
+
+    //
 
     @Override
     public void accion(Factura facturaNow, int saldo){

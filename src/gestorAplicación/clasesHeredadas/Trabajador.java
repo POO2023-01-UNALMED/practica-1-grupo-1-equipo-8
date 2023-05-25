@@ -8,9 +8,8 @@ import gestorAplicación.clasesPrincipales.*;
 // Herencia
 
 public class Trabajador extends Persona {
-    private String horario;
-    private Reserva atenderMesa;
-    private ArrayList<Mesa> mesasAtendidas = new ArrayList<Mesa>();
+    final private String horario;
+    private ArrayList<Reserva> mesasAtendidas = new ArrayList<Reserva>();
     public static ArrayList<Trabajador> trabajadoresActivos = new ArrayList<Trabajador>();
     public static ArrayList<Reserva> mesasElegir = new ArrayList<Reserva>();
     private int sueldo;
@@ -27,15 +26,6 @@ public class Trabajador extends Persona {
         super("N/N", id);
         this.horario = horario;
     }
-    
-    public Reserva getAtenderMesa() {
-        return atenderMesa;
-        }
-    public void setAtenderMesa(Reserva reserva) {
-        atenderMesa = reserva;
-        sueldo = sueldo + 35000;
-    }
-
     public static ArrayList<Trabajador> getTrabajadoresActivos() {
         return trabajadoresActivos;
         }  
@@ -56,17 +46,31 @@ public class Trabajador extends Persona {
         mesasElegir.remove(reserva);
         }
     public String toString() {
-        return this.getNombre() + this.getId();
+        return this.getNombre() + this.getId() + this.horario;
     }
     
     public int getSueldo() {
         return sueldo;
         }
-
-    public void añadirServicio(Reserva buscarR){
-        this.setAtenderMesa(buscarR);
-		Trabajador.addTrabajadoresActivos(this);
-		Trabajador.removeMesasElegir(buscarR);
-        this.mesasAtendidas.add(buscarR.getMesa());
+    public void addMesasAtendidas(Reserva reserva) {
+            mesasAtendidas.add(reserva);
     }
+    public ArrayList<Reserva> getMesasAtendidas() {
+        return mesasAtendidas;
+        }  
+
+
+    @Override
+     public void accion(Factura facturaNow, int sueldo){
+        Reserva reserva = facturaNow.getReserva();
+        addMesasAtendidas(reserva);
+        System.out.println("La cantidad de reservas atendidas por el trabajador: " + getNombre());
+        System.out.println("Es un total de: " + mesasAtendidas.size());
+        
+
+        int sueldoFactura = facturaNow.getPrecio();
+        this.sueldo += sueldoFactura/2;
+        System.out.println("Su sueldo actual es de: " + getSueldo());
+     }
+
 }

@@ -210,5 +210,35 @@ public static ArrayList<Reserva> deserializarMesasElegir() {
         return new ArrayList<Reserva>();
     }
 }
+
+public static ArrayList<Reserva> deserializarMesasAtendidas() {
+    String rutaArchivo = archivo.getAbsolutePath() + "/mesasAtendidas.txt";
+    File archivoMesasAtendidas = new File(rutaArchivo);
+
+    if (archivoMesasAtendidas.exists()) {
+        try {
+            FileInputStream file = new FileInputStream(archivoMesasAtendidas);
+            ObjectInputStream o = new ObjectInputStream(file);
+
+            ArrayList<Reserva> mesasAtendidas = (ArrayList<Reserva>) o.readObject();
+
+            file.close();
+            o.close();
+
+            return mesasAtendidas;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<Reserva>();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ArrayList<Reserva>();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<Reserva>();
+        }
+    } else {
+        return new ArrayList<Reserva>();
+    }
+}
     
 }

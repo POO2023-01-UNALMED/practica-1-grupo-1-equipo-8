@@ -56,7 +56,8 @@ public class ui {
 				break;
 		}
 	}
-        
+
+        //Se despliega el menú de cliente
 	public static  void menuCliente(){
 		Scanner inp = new Scanner(System.in);
         System.out.println(" ------------------------------------------------------------------");
@@ -91,6 +92,7 @@ public class ui {
 		 inp.close();
 	}
 
+	//Se despliega el menú de trabajador
 	 public static void menuTrabajador() {
 			Scanner inp = new Scanner(System.in);
 			System.out.println(" ---------------------------------------------------------------------");
@@ -120,12 +122,14 @@ public class ui {
 	 }
 	 
 	 //TRABAJADOR
-public static void ingresarTrabajo() {
+	 //Ingresar al trabajo
+    public static void ingresarTrabajo() {
 	Scanner inp = new Scanner(System.in);
 	System.out.println("Ingrese su nombre");
 	String na = inp.nextLine();
 	System.out.println("Ingrese su número de identificación");
 	int na1 = inp.nextInt();
+	//Se crea un trabajador y se añade en trabajadores activos
 	Trabajador trabajador = new Trabajador(na, na1, "6pm-12pm");
 	Trabajador.addTrabajadoresActivos(trabajador);
 	System.out.println("¡Listo! Ahora eres un trabajador de RestauranteUN");
@@ -134,22 +138,28 @@ public static void ingresarTrabajo() {
 	Serializar.serializarMesasElegir(Trabajador.mesasElegir);
 	inp.close();
 	}
-	
+	 
+//Asignar mesa
 public static void asignarMesa() {
 	Scanner inp = new Scanner(System.in);
 
 	System.out.println("ingrese su ID de trabajador:");
+	//Buscar el trabajador por su ID
 	int spc2 = inp.nextInt();
 	Trabajador trabajador = Persona.buscarTrabajador(spc2);
 
-
-	if (trabajador != null) {
+	if (trabajador	== null){
+		System.out.println("No hemos encontrado ningun trabajador con esta ID");
+		return;
+	}
+	if (trabajador != null) { //Si hay un trabajador con el ID introducido
 		System.out.println("¡Bienvenido! " + trabajador.getNombre() + " ¿Que deseas hacer?");
 		System.out.println("1. Asignar mesa");
 		System.out.println("2. Ver mesas asignadas");
 		int opc5 = inp.nextInt();
 		
-		if (opc5 == 1) {
+		//Asignar mesa
+		if (opc5 == 1) { 
 			if (Trabajador.mesasElegir.size() == 0){
 				System.out.println("Lo sentimos, no hay mesas disponibles en este momento, espere a nuevas reservas");
 				return;
@@ -162,49 +172,45 @@ public static void asignarMesa() {
 			}
 			System.out.println("Escoja una");
 			int opc6 = inp.nextInt();
+			//Se muestran todas las mesas sin un trabajador establecido
 			Reserva buscarR = Trabajador.mesasElegir.get(opc6-1);
+			Factura facturaNow = Factura.buscarFactura(Pago.getFacturasPendientes(), buscarR.getIdR());
+			trabajador.accion(facturaNow, trabajador.getSueldo());
+			Trabajador.removeMesasElegir(buscarR);
 
-			trabajador.añadirServicio(buscarR);
-			System.out.println("¡Listo!, se ha indicado que atenderás esta mesa")
+			System.out.println("¡Listo!, se ha indicado que atenderás esta mesa");
 		}
-
+		//Ver mesas asignadas
 		if (opc5 == 2) {
 			System.out.println("A continuación aparecerán todas las mesas asignadas en pantalla:");
-			ArrayList<Trabajador> listaMesas = Trabajador.getTrabajadoresActivos();
-			for(Trabajador buscarT : listaMesas) {
-				System.out.println("Mesa " + buscarT.getAtenderMesa() + " de " + buscarT.getNombre());
-			    }  	
-	        }
+			for (Trabajador t : Trabajador.trabajadoresActivos){
+				System.out.println(t);
+				int c = 1;
+				for (Reserva r : t.getMesasAtendidas()){
+					System.out.println(c+". "+r);
+					c++;
+				}
+			}
 		}
 	
-	else {
-		System.out.println("Lo sentimos, no encontramos ningún trabajador con los datos introducidos");
-		}
 
 
 		Serializar.serializarTrabajadoresActivos(Trabajador.trabajadoresActivos);
 		Serializar.serializarMesasElegir(Trabajador.mesasElegir);
+	}
 
 
 }
+//Visualizar sueldo actual
 public static void visualizarSueldo() {
 	Scanner inp = new Scanner(System.in);
 
-	Trabajador trabajador = null;
-	System.out.println("Para comenzar, ingrese su nombre:");
-	String spc1 = inp.nextLine();
-	System.out.println("ingrese su numero de identificación:");
+	System.out.println("ingrese su ID de trabajador:");
 	int spc2 = inp.nextInt();
-	ArrayList<Trabajador> lista = Trabajador.getTrabajadoresActivos();
-	for (Trabajador BuscarT : lista) {
-		if(BuscarT.getNombre() == spc1) {
-			if(BuscarT.getId() == spc2) {
-				trabajador = BuscarT;
-				break;
-			}
-		}
-	}
+	//Buscar el trabajador por su ID
+	Trabajador trabajador = Persona.buscarTrabajador(spc2);
 
+    //Muestra el sueldo del trabajador en formato de pesos
 	if (trabajador != null) {
 		DecimalFormat formato = new DecimalFormat("$#,###,###");
 		String sueldo = formato.format(trabajador.getSueldo());
@@ -219,9 +225,10 @@ public static void visualizarSueldo() {
 		Serializar.serializarTrabajadoresActivos(Trabajador.trabajadoresActivos);
 }
 
+//CLIENTE
+
 // Funcionalidades implementadas
 // Reservar
-	
 public static void hacerReserva() {
 	Scanner inp = new Scanner(System.in);
 	System.out.println("Para comenzar, ingrese su nombre");
@@ -229,6 +236,7 @@ public static void hacerReserva() {
 	System.out.println("ingrese su numero de identificación");
 	int a2 = inp.nextInt();
 
+    //Se crea un cliente con los datos de entrada
 	Cliente clienteNow = new Cliente (a1,a2);
 
 	System.out.println("Escoja la sede en la que quiera reservar");
@@ -236,7 +244,7 @@ public static void hacerReserva() {
 	System.out.println("1. Bello");
 	System.out.println("2. Envigado");
 	System.out.println("3. San Javier");
-	
+    //Busca una mesa con todas las características requeridas
 	int sede = inp.nextInt()-1;
 	String Isede = Reserva.devolverSede(sede);
 
@@ -246,14 +254,14 @@ public static void hacerReserva() {
 
 	System.out.println("Ingrese la hora en la que quiere reservar [6pm-12pm]");
 	int hora = inp.nextInt();
-
 	ArrayList<Mesa> mesasF = Reserva.validarHorarioDisponible(mesasRequeridas, hora);
 	
-	if (mesasF.size() == 0 ){
+	if (mesasF.size() == 0 ){ //Si no hay mesas disponibles
 		System.out.println("Lo sentimos, pero no hay disponibilidad de mesas con estas caracteristicas");
 	} else {
 		System.out.println("Escoja una de las mesas que se mostrarán a continuación");
 		int c = 1;
+		//Imprime el toString de todas las mesas disponibles de mesasF
 		for (Mesa mesa : mesasF){
 			if (mesa.getDisponibilidad()) {
 			System.out.println(c + ". "+ mesa.toString());
@@ -262,6 +270,7 @@ public static void hacerReserva() {
 		}
 	}
 
+	//Se crea la reserva
 	int mesaElegida = inp.nextInt();
 	Mesa mesaEl = mesasF.get(mesaElegida-1);
 	System.out.println("La " + mesaEl.getId() + " será reservada a nombre de " + clienteNow.getNombre() + " ¿Desea continuar y generar su factura?");
@@ -276,6 +285,7 @@ public static void hacerReserva() {
 		System.out.println("2. No");
 		int decs = inp.nextInt();
 		if (decs == 1){
+			//Imprime la factura de la reserva creada
 			System.out.println(facturaNow.toString());
 		}
 		
@@ -300,13 +310,16 @@ public static void hacerReprogramacion(){
 	String id = inp.nextLine();
 
 	Factura facturaNow = Factura.buscarFactura(Pago.getFacturasPagas(), id);
+	//Factura ya pagada
 	if (facturaNow != null){
 		System.out.println("Lo sentimos, pero no se puede reprogramar una factura ya pagada");
 		return;
 	} 
 	facturaNow = Factura.buscarFactura(Pago.getFacturasPendientes(), id);
+	//Ninguna factura con esta ID
 	if (facturaNow == null){
 		System.out.println("Lo sentimos, no hemos encontrado ninguna factura con la ID proporcionada");
+	//Factura pendiente de pago	
 	} else {
 		System.out.println("Su factura ha sido encontrada");
 		System.out.println("Escoja la sede en la que quiera reservar");
@@ -314,7 +327,7 @@ public static void hacerReprogramacion(){
 		System.out.println("1. Bello");
 		System.out.println("2. Envigado");
 		System.out.println("3. San Javier");
-	
+	    //Busca una mesa con todas las características requeridas
 		int sede = inp.nextInt()-1;
 		String Isede = Reserva.devolverSede(sede);
 		System.out.println("Ingrese la nueva cantidad de personas[2-4]:");
@@ -326,12 +339,13 @@ public static void hacerReprogramacion(){
 
 		ArrayList<Mesa> mesasF = Reserva.validarHorarioDisponible(mesasRequeridas, hora);
 	
-		if (mesasF.size() == 0 ){
+		if (mesasF.size() == 0 ){ //Si no hay mesas disponibles
 			System.out.println("Lo sentimos, pero no hay disponibilidad de mesas con estas caracteristicas");
 		} else {
 			System.out.println("Escoja una de las mesas que se mostrarán a continuación");
 			int c = 1;
-			for (Mesa mesa : mesasF){
+			//Imprime el método toString de todas las mesas disponibles de mesasF
+			for (Mesa mesa : mesasF){ 
 				if (mesa.getDisponibilidad()) {
 				System.out.println(c + ". "+ mesa.toString());
 				c++;
@@ -345,6 +359,7 @@ public static void hacerReprogramacion(){
 			System.out.println("2. No");
 			int confirmacion = inp.nextInt();
 			if(confirmacion == 1) {
+			//se cambia la mesa y la hora de la reserva que se está reprogramando	
 			Reserva reEl = Reserva.buscarReserva(id);
 			reEl.cambiarParametros(hora, mesaEl);
 			facturaNow.actualizarFactura(reEl);
@@ -371,11 +386,12 @@ public static void procederPago(){
 	int sel = inp.nextInt();
 	switch (sel) {
 
-		case 1:
+		case 1: //Pagar
 		Scanner inp2 = new Scanner(System.in);
 		System.out.println("Ingrese la ID de su reserva");
 		String id = inp2.nextLine();
 		Factura facturaNow = Factura.buscarFactura(Pago.getFacturasPagas(), id);
+		 //Caso en que la factura ya fue pagada
 		if (facturaNow != null){
 			System.out.println("La factura " +facturaNow.getIDReserva()+ " ya ha sido pagada");
 			System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaNow);
@@ -383,8 +399,8 @@ public static void procederPago(){
 		}
 
 		facturaNow = Factura.buscarFactura(Pago.getFacturasPendientes(), id);
-
-		if(facturaNow == null){
+		//Ninguna factura que tenga este Id
+		if(facturaNow == null){ 
 			System.out.println("No se ha encontrado ninguna factura con la ID: " +id);
 		} else {
 			System.out.println("A continuación podrás ver tu factura en pantalla "+ "\n" + facturaNow);
@@ -402,9 +418,11 @@ public static void procederPago(){
 					System.out.println("Ingrese el saldo de su tarjeta");
 					int saldo = inp.nextInt();
 					Cliente cliente = facturaNow.getClienteFactura();
+					//Revisa si el saldo es suficiente y cambia la factura a facturasPagas, se crea un objeto de Pago en linea
 					cliente.accion(facturaNow, saldo);
 				}
 				else{
+					//cambia la factura a facturasPagas, se crea un objeto de Pago en efectivo
 					Cliente.pagoEnEfectivo(facturaNow);
 				}
 			}	else	{
@@ -412,10 +430,12 @@ public static void procederPago(){
 			}
 			break;
 		}
-		case 2: 
+		//Reembolso
+		case 2:
 		Scanner inp3 = new Scanner(System.in);
 		System.out.println("Ingrese la ID de su reserva");
 		String id2 = inp3.nextLine();
+		//Busca la factura que concuerde con la ID
 		Factura facturaNow2 = Factura.buscarFactura(Pago.getFacturasPendientes(), id2);
 		if (facturaNow2 != null){
 			System.out.println("La factura " +facturaNow2.getIDReserva()+ " no ha sido pagada, por tanto, no se puede reembolsar");
@@ -423,10 +443,10 @@ public static void procederPago(){
 			break;
 		} 
 		facturaNow2 = Factura.buscarFactura(Pago.getFacturasPagas(), id2);
-		if (facturaNow2 == null){
+		if (facturaNow2 == null){ 
 			System.out.println("No se ha encontrado ninguna factura con la ID: " +id2);
 		} else {
-			Pago.removePaga(facturaNow2);
+			Pago.removePaga(facturaNow2); //Elimina la factura de facturasPagas
 			System.out.println("La factura " + id2 + " ha sido reembolsada a su tarjeta usada para el pago");
 	            		    
 	            		    System.out.println("Para finalizar cuentanos cuál fue el motivo de su reembolso");
@@ -466,8 +486,9 @@ public static void procederPago(){
         System.out.println("2. Cancelar membresía");
         System.out.println("3. Verificar membresía");
         int acc = in.nextInt();
-
+		
         switch(acc){
+			//Ingresar membresía
             case 1:
                 Scanner input = new Scanner(System.in);
                 System.out.println("Ingrese su nombre y su numero de identificacion");
@@ -478,6 +499,7 @@ public static void procederPago(){
 				int idAgregar = clienteNuevoMiembro.getId();
                 Membresia.agregarMiembro(nombreClienteN, idAgregar, clienteNuevoMiembro);
                 break;
+			//Cancelar membresía
             case 2:
                 Scanner i = new Scanner(System.in);
                 System.out.println("Ingrese su nombre y su numero de identificacion");
@@ -488,6 +510,7 @@ public static void procederPago(){
 				int ideliminar = clienteEliminar.getId();
                 Membresia.cancelarMiembro(nombreCliente, ideliminar ,clienteEliminar);
                 break;
+			//Verificar membresía
             case 3:
                 Scanner a = new Scanner(System.in);
                 System.out.println("Ingrese su nombre y su numero de identificacion");

@@ -7,7 +7,6 @@ import gestorAplicación.clasesHeredadas.Cliente;
 
 public class Factura implements Serializable {
 	private Reserva reserva;
-    private String facturaHecha;
     private Cliente cliente;
 	private Mesa mesa;
 	private int precio;
@@ -42,10 +41,6 @@ public class Factura implements Serializable {
 	public Mesa getMesa() {
     	return mesa;
     }
-
-	public String getFacturaHecha() {
-		return facturaHecha;
-		}
 	
 	public int getPrecio() {
 		return precio;
