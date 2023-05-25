@@ -51,6 +51,8 @@ public class Reserva implements Serializable {
 		return "Cliente: " + this.cliente + ", mesa: " + this.mesa + ", hora: " + this.hora + ", reservaID: " + this.IdR;
 	}
 
+
+	//Recibe una lista de mesas y revisa si estan disponibles en cierto horario
 	public static ArrayList<Mesa> validarHorarioDisponible(ArrayList<Mesa> mesas, int hora) {
 		ArrayList<Mesa> mesasReservadas = new ArrayList<>();
 		for (Mesa m : mesas) {
