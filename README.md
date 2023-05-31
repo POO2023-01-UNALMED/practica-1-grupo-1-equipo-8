@@ -1,4 +1,4 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/UhcYLOEZ)
+
 # Restaurante UN
 Aplicación con la finalidad de implementarse en un restaurante, siendo posible a través de esta, realizar y administrar reservas de mesas, vinculaciones de membresías y pagos de facturas. 
 
