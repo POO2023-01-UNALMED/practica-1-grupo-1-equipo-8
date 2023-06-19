@@ -1,6 +1,7 @@
 import pickle
 import os
 
+
 class Serializar:
     archivo = "baseDatos"
 
@@ -23,7 +24,7 @@ class Serializar:
             print("No se encuentra el archivo:", e)
         except IOError as e:
             print("Error al escribir en el archivo:", e)
-    
+
     @staticmethod
     def serializarMesas(mesasDisponibles):
         try:
@@ -33,7 +34,7 @@ class Serializar:
             print("No se encuentra el archivo:", e)
         except IOError as e:
             print("Error al escribir en el archivo:", e)
-    
+
     @staticmethod
     def serializarFacturasPagas(facturasPagas):
         try:
@@ -43,7 +44,7 @@ class Serializar:
             print("No se encuentra el archivo:", e)
         except IOError as e:
             print("Error al escribir en el archivo:", e)
-    
+
     @staticmethod
     def serializarFacturasPendientes(facturasPendientes):
         try:
@@ -53,7 +54,7 @@ class Serializar:
             print("No se encuentra el archivo:", e)
         except IOError as e:
             print("Error al escribir en el archivo:", e)
-    
+
     @staticmethod
     def serializarTrabajadoresActivos(trabajadoresActivos):
         try:
