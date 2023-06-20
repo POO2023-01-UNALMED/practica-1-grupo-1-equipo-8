@@ -1,16 +1,19 @@
-from src.gestorAplicación.clasesMain import *
 from tkinter import messagebox
+
+from src.gestorAplicación.clasesMain import *
+
 
 class Cliente(Persona):
     miembrosActuales = []
-    def __init__(self, id, nombre="N/N"):
+    def __init__(self, nombre, id):
         super().__init__(nombre, id)
         self._membresia = self.getMembresia()
 
     # Get
     @classmethod
-    def getMiembrosActuales(cls):
+    def getmiembrosActuales(cls):
         return cls.miembrosActuales
+
     def getMembresia(self):
         if self not in Cliente.miembrosActuales:
             return None
@@ -34,7 +37,7 @@ class Cliente(Persona):
 
     # ToString
     def __str__(self):
-        return "{} {}".format(self.getNombre, self.getId)
+        return self.getNombre() + " " + str(self.getId())
 
     # Ligadura dinámica (Override)
     def accion(self, facturaNow, saldo):
@@ -72,7 +75,7 @@ class Cliente(Persona):
                 raise campoVacio(i)
 
 class Trabajador(Persona):
-    _mesasAtendidas = []
+    mesasAtendidas = []
     trabajadoresActivos = []
     mesasElegir = []
 
@@ -98,24 +101,24 @@ class Trabajador(Persona):
 
     # Otros métodos
     @classmethod
-    def addTrabajadoresActivos(trabajador):
+    def addTrabajadoresActivos(cls, trabajador):
         Trabajador.trabajadoresActivos.append(trabajador)
 
     @classmethod
-    def removeTrabajadoresActivos(trabajador):
+    def removeTrabajadoresActivos(cls, trabajador):
         Trabajador.trabajadoresActivos.remove(trabajador)
 
     @classmethod
-    def addMesasElegir(reserva):
+    def addMesasElegir(cls, reserva):
         Trabajador.mesasElegir.append(reserva)
 
     @classmethod
-    def removeMesasElegir(reserva):
+    def removeMesasElegir(cls, reserva):
         Trabajador.mesasElegir.remove(reserva)
 
     @classmethod
-    def addMesasAtendidas(reserva):
-        Trabajador.addMesasAtendidas.append(reserva)
+    def addMesasAtendidas(cls, reserva):
+        Trabajador.addMesasAtendidas(reserva)
 
     # Método ToString
     def __str__(self):
@@ -129,5 +132,3 @@ class Trabajador(Persona):
         sueldoFactura = facturaNow.getPrecio()
         self._sueldo += sueldoFactura / 2
         return True
-
-

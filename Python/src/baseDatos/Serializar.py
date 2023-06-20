@@ -1,86 +1,33 @@
-import pickle
 import os
+import pathlib
+import pickle
+
+from src.gestorAplicación.clasesHeredadas import Cliente
+from src.gestorAplicación.clasesHeredadas import Trabajador
+from src.gestorAplicación.clasesMain import Mesa
+from src.gestorAplicación.clasesMain import Pago
+from src.gestorAplicación.clasesMain import Reserva
 
 
-class Serializar:
-    archivo = "baseDatos"
-
+class Serializador:
     @staticmethod
-    def serializarMiembros(miembrosActuales):
+    def serializar(nombre, lista):
+        ruta = os.path.join(
+            pathlib.Path(__file__).parent.absolute(), "temp/" + nombre + ".txt"
+        )
         try:
-            with open(os.path.join(Serializar.archivo, "miembrosActuales.pickle"), "wb") as f:
-                pickle.dump(miembrosActuales, f)
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al escribir en el archivo:", e)
+            with open(ruta, "wb") as picklefile:
+                pickle.dump(lista, picklefile)
+        except:
+            print("Ocurrió un error gg")
 
-    @staticmethod
-    def serializarReservas(reservasHechas):
-        try:
-            with open(os.path.join(Serializar.archivo, "reservasHechas.pickle"), "wb") as f:
-                pickle.dump(reservasHechas, f)
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al escribir en el archivo:", e)
-
-    @staticmethod
-    def serializarMesas(mesasDisponibles):
-        try:
-            with open(os.path.join(Serializar.archivo, "mesasDisponibles.pickle"), "wb") as f:
-                pickle.dump(mesasDisponibles, f)
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al escribir en el archivo:", e)
-
-    @staticmethod
-    def serializarFacturasPagas(facturasPagas):
-        try:
-            with open(os.path.join(Serializar.archivo, "facturasPagas.pickle"), "wb") as f:
-                pickle.dump(facturasPagas, f)
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al escribir en el archivo:", e)
-
-    @staticmethod
-    def serializarFacturasPendientes(facturasPendientes):
-        try:
-            with open(os.path.join(Serializar.archivo, "facturasPendientes.pickle"), "wb") as f:
-                pickle.dump(facturasPendientes, f)
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al escribir en el archivo:", e)
-
-    @staticmethod
-    def serializarTrabajadoresActivos(trabajadoresActivos):
-        try:
-            with open(os.path.join(Serializar.archivo, "trabajadoresActivos.pickle"), "wb") as f:
-                pickle.dump(trabajadoresActivos, f)
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al escribir en el archivo:", e)
-
-    @staticmethod
-    def serializarMesasElegir(mesasElegir):
-        try:
-            with open(os.path.join(Serializar.archivo, "mesasElegir.pickle"), "wb") as f:
-                pickle.dump(mesasElegir, f)
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al escribir en el archivo:", e)
-
-    @staticmethod
-    def serializarMesasAtendidas(mesasAtendidas):
-        try:
-            with open(os.path.join(Serializar.archivo, "mesasAtendidas.pickle"), "wb") as f:
-                pickle.dump(mesasAtendidas, f)
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al escribir en el archivo:", e)
+    @classmethod
+    def serializarDatos(cls):
+        cls.serializar("miembrosActuales", Cliente.getmiembrosActuales())
+        cls.serializar("reservasHechas", Reserva.getReservasHechas())
+        cls.serializar("mesasDisponibles", Mesa.mesasDisponibles)
+        cls.serializar("facturasPagas", Pago.facturasPagas)
+        cls.serializar("facturasPendientes", Pago.facturasPendientes)
+        cls.serializar("mesasElegidas", Trabajador.mesasAtendidas)
+        cls.serializar("mesasElegir", Trabajador.mesasElegir)
+        cls.serializar("trabajadoresActivos", Trabajador.trabajadoresActivos)

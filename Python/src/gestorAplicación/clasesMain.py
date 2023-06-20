@@ -1,9 +1,10 @@
 from abc import ABC,abstractclassmethod
 
+
 class Persona(ABC):
     def __init__(self, nombre, id):
-        self._nombre = nombre
         self._id = id
+        self._nombre = nombre
 
     def getId(self):
         return self._id
@@ -37,13 +38,12 @@ class Mesa:
     def getSede(self):
         return self._sede
 
-    # Metodo toString
-    def toString(self):
-        return "Mesa: " + str(self._idMesa) + ", Capacidad: " + str(self._capacidad)
+    def __str__(self):
+        return "Mesa: " + str(self._idMesa)
 
     # Busca una mesa con las caracteristicas dadas
     @classmethod
-    def buscarMesas(Isede, capacidad):
+    def buscarMesas(cls, Isede, capacidad):
         mesasEsp = []
         for m in Mesa.mesasDisponibles:
             if m.getSede() == Isede and m.getCapacidad() == capacidad:
@@ -52,25 +52,13 @@ class Mesa:
 
     @classmethod
     def validarDatosMesa(cls, capacidad, sede, hora):
-        from src.Errores.ExceptionC1 import DatoInvalido
-
+        from src.Errores.ExceptionC1 import horarioInvalido,sedeInvalida,capacidadInvalida
         if capacidad > 4 or capacidad < 1:
-            raise DatoInvalido("Las mesas de nuestros restaurantes están entre 2 y 4 personas")
+            raise capacidadInvalida()
         if hora > 10 or hora < 2:
-            raise DatoInvalido("A esta hora el restaurante no estará prestando servicio")
-        if not sede.lower() in ["envigado", "bello", "san javier"]:
-            raise ValueError("La sede no es válida")
-        else:
-            try:
-                global cMesas
-                hora = int(hora)
-                capacidad = int(capacidad)
-                cls.cMesas += 1
-                return Mesa(sede, cMesas, capacidad)
-
-            except ValueError:
-                return False
-
+            raise horarioInvalido()
+        if not sede.lower() in ["envigado", "bello", "sanjavier"]:
+            raise sedeInvalida()
 
 
 class Factura:
@@ -127,7 +115,7 @@ class Factura:
 
     def clienteEsMiembro(self, cliente):
         from src.gestorAplicación.clasesHeredadas import Cliente
-        lista = Cliente.getMiembrosActuales()
+        lista = Cliente.getmiembrosActuales()
         for clienteActual in lista:
             if (clienteActual.getNombre() == cliente.getNombre) and (clienteActual.getId() == cliente.getId):
                 return True
@@ -137,7 +125,6 @@ class Factura:
         Pago.removePendiente(self)
         Factura(reserva)
 
-    # ToString
     def __str__(self):
         facturaHecha = "-------------\nRestaurante Un\nId de la reserva: {}\nCliente: {}\nIdentificación: {}\nSede: {}\nMesa #{}\nHora: {}"
         facturaHecha = facturaHecha.format(self._id, self._cliente.getNombre(), self._cliente.getId(), self._sede,
@@ -189,22 +176,22 @@ class Membresia:
     @staticmethod
     def agregarMiembro(nombre, id):
         from src.gestorAplicación.clasesHeredadas import Cliente
-        for cliente in Cliente.getMiembrosActuales():
+        for cliente in Cliente.getmiembrosActuales():
             if cliente.getNombre() == nombre and cliente.getId() == id:
                 return False
         miembro = Cliente(nombre, id)
         membresia = Membresia("Gold", True)
         membresia.setActiva(True)
-        Cliente.getMiembrosActuales().append(miembro)
+        Cliente.getmiembrosActuales().append(miembro)
         return True
 
     @staticmethod
     def cancelarMiembro(nombre, idEliminar, eliminar):
         from src.gestorAplicación.clasesHeredadas import Cliente
-        for cliente in Cliente.getMiembrosActuales():
+        for cliente in Cliente.getmiembrosActuales():
             if cliente.getNombre() == nombre and cliente.getId() == idEliminar:
                 cliente.setMembresia(None)
-                Cliente.getMiembrosActuales().remove(cliente)
+                Cliente.getmiembrosActuales().remove(cliente)
                 return True
         return False
 
@@ -258,6 +245,12 @@ class Pago:
     @staticmethod
     def removePagos(pago):
         Pago.registroPagos.remove(pago)
+
+    @classmethod
+    def buscarFactura(cls, param):
+        pass
+
+
 class Reserva:
 
     reservasHechas = []
@@ -269,7 +262,7 @@ class Reserva:
         self._mesa = mesa
         self._IdR = str(hora) + "-" + mesa.getId()
         Reserva.reservasHechas.append(self)
-        Trabajador.addMesasElegir()
+        Trabajador.addMesasElegir(self)
 
     # Getters
     @classmethod
@@ -298,19 +291,20 @@ class Reserva:
     def setHora(self, hora):
         self.hora = hora
 
-    def __Str__(self):
-        return "Cliente: " + self._cliente + ", mesa: " + self._mesa + ", hora: " + self._hora + ", reservaID: " + self._IdR
+    def __str__(self):
+        return "Cliente: " + self._cliente.__str__() +", mesa: " + self._mesa.__str__() + ", hora: " + str(self._hora) + ", reservaID: " + self._IdR
 
     # Recibe una lista de mesas y revisa si estan disponibles en cierto horario
     @classmethod
-    def validarHorarioDisponible(mesas, hora):
+    def validarHorarioDisponible(cls, mesas, hora):
         mesasReservadas = []
         for m in mesas:
             for r in Reserva.reservasHechas:
-                if r.getIdR().trim() == (hora + "-" + m.getId()):
+                if r.getIdR().strip() == (str(hora) + "-" + m.getId()):
                     mesasReservadas.append(m)
         for i in mesasReservadas:
-            mesas.pop(i)
+            if i in mesas:
+                mesas.remove(i)
         return mesas
 
     def cambiarParametros(self, hora, mesa):
@@ -319,8 +313,8 @@ class Reserva:
         self.IdR = hora + "-" + mesa.getId()
 
     @classmethod
-    def buscarReserva(id):
+    def buscarReserva(cls, id):
         for r in Reserva.reservasHechas:
-            if (r.getIdR().trim() == id):
+            if r.getIdR().trim() == id:
                 return r
         return None

@@ -1,96 +1,36 @@
-import pickle
 import os
+import pathlib
+import pickle
 
-class Deserializar:
+from src.gestorAplicación.clasesHeredadas import Cliente
+from src.gestorAplicación.clasesHeredadas import Trabajador
+from src.gestorAplicación.clasesMain import Mesa
+from src.gestorAplicación.clasesMain import Pago
+from src.gestorAplicación.clasesMain import Reserva
 
-    archivo = "baseDatos"
 
+class Deserializador:
     @staticmethod
-    def deserializarMiembros():
+    def deserializar(nombre):
+        lista = []
+        ruta = os.path.join(
+            pathlib.Path(__file__).parent.absolute(), "temp/" + nombre + ".txt"
+        )
         try:
-            with open(os.path.join(Deserializar.archivo, "miembrosActuales.pickle"), "rb") as f:
-                miembrosActuales = pickle.load(f)
-                return miembrosActuales
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al leer el archivo:", e)
+            with open(ruta, "rb") as picklefile:
+                if os.path.getsize(ruta) > 0:
+                    lista = pickle.load(picklefile)
+        except:
+            print("Ocurrió un error gg")
+        return lista
 
-    @staticmethod
-    def deserializarReservas():
-        try:
-            with open(os.path.join(Deserializar.archivo, "reservasHechas.pickle"), "rb") as f:
-                reservasHechas = pickle.load(f)
-                return reservasHechas
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al leer el archivo:", e)
-
-    @staticmethod
-    def deserializarMesas():
-        try:
-            with open(os.path.join(Deserializar.archivo, "mesasDisponibles.pickle"), "rb") as f:
-                mesasDisponibles = pickle.load(f)
-                return mesasDisponibles
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al leer el archivo:", e)
-
-    @staticmethod
-    def deserializarFacturasPagas():
-        try:
-            with open(os.path.join(Deserializar.archivo, "facturasPagas.pickle"), "rb") as f:
-                facturasPagas = pickle.load(f)
-                return facturasPagas
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al leer el archivo:", e)
-
-    @staticmethod
-    def deserializarFacturasPendientes():
-        try:
-            with open(os.path.join(Deserializar.archivo, "facturasPendientes.pickle"), "rb") as f:
-                facturasPendientes = pickle.load(f)
-                return facturasPendientes
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al leer el archivo:", e)
-
-    @staticmethod
-    def deserializarTrabajadoresActivos():
-        try:
-            with open(os.path.join(Deserializar.archivo, "trabajadoresActivos.pickle"), "rb") as f:
-                trabajadoresActivos = pickle.load(f)
-                return trabajadoresActivos
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al leer el archivo:", e)
-
-    @staticmethod
-    def deserializarMesasElegir():
-        try:
-            with open(os.path.join(Deserializar.archivo, "mesasElegir.pickle"), "rb") as f:
-                mesasElegir = pickle.load(f)
-                return mesasElegir
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al leer el archivo:", e)
-
-    @staticmethod
-    def deserializarMesasAtendidas():
-        try:
-            with open(os.path.join(Deserializar.archivo, "mesasAtendidas.pickle"), "rb") as f:
-                mesasAtendidas = pickle.load(f)
-                return mesasAtendidas
-        except FileNotFoundError as e:
-            print("No se encuentra el archivo:", e)
-        except IOError as e:
-            print("Error al leer el archivo:", e)
-
-
+    @classmethod
+    def deserializarDatos(cls):
+        Cliente.miembrosActuales = cls.deserializar("miembrosActuales")
+        Reserva.reservasHechas = cls.deserializar("reservasHechas")
+        Mesa.mesasDisponibles = cls.deserializar("mesasDisponibles")
+        Pago.facturasPagas = cls.deserializar("facturasPagas")
+        Pago.facturasPendientes = cls.deserializar("facturasPendientes")
+        Trabajador.mesasAtendidas = cls.deserializar("mesasAtendidas")
+        Trabajador.mesasElegir = cls.deserializar("mesasElegir")
+        Trabajador.trabajadoresActivos = cls.deserializa
