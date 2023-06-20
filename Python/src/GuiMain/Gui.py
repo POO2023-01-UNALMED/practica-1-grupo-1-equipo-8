@@ -77,6 +77,7 @@ class FieldFrame(tk.Frame):
 
     # get
     def getValue(self, a):
+        self.aceptar.invoke()
         value = self.criterio[a]
         return value
 
